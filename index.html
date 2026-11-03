@@ -1,1017 +1,1915 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="auto">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Visualization for Data Analytics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f4f4f9;--surface:#fff;--surface-2:#edecf5;--ink:#1b1930;--text:#34314c;--muted:#6a6883;--border:#e4e2ef;--primary:#4b3fd0;--primary-strong:#3a2fb0;--primary-soft:#ecebfb;--accent:#ef6a45;--accent-soft:#fdece6;--bridge:#0e8f8f;--bridge-soft:#e0f5f4;--success:#2e9e50;--success-soft:#e6f5ea;--danger:#d6465a;--danger-soft:#fbe9ec;--warning:#cf8710;--warning-soft:#fbf0da;--radius-card:14px;--radius-sm:8px;--code-bg:#1a1930;--code-header:#232145;--code-text:#e9e7f6;--code-comment:#8481a3;--code-keyword:#b7a6ff;--code-string:#86e0a8;--code-number:#f2a06a;--code-builtin:#63d5d0;--code-operator:#d9d6ec;--font-head:'Fraunces',Georgia,serif;--font-body:'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif;--font-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;color-scheme:light;}
-:root[data-theme="dark"]{--bg:#131223;--surface:#1c1a2e;--surface-2:#24223a;--ink:#f3f2fb;--text:#cbc9e0;--muted:#918eab;--border:#2e2c46;--primary:#9a8ff5;--primary-strong:#b3aaff;--primary-soft:#211f3a;--accent:#ff8163;--accent-soft:#3a2620;--bridge:#34c9c6;--bridge-soft:#10302f;--success:#46c06e;--success-soft:#12301e;--danger:#f0687a;--danger-soft:#331920;--warning:#e0a53a;--warning-soft:#33280f;color-scheme:dark;}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="dark"]){--bg:#131223;--surface:#1c1a2e;--surface-2:#24223a;--ink:#f3f2fb;--text:#cbc9e0;--muted:#918eab;--border:#2e2c46;--primary:#9a8ff5;--primary-strong:#b3aaff;--primary-soft:#211f3a;--accent:#ff8163;--accent-soft:#3a2620;--bridge:#34c9c6;--bridge-soft:#10302f;--success:#46c06e;--success-soft:#12301e;--danger:#f0687a;--danger-soft:#331920;--warning:#e0a53a;--warning-soft:#33280f;color-scheme:dark;}}
-*{box-sizing:border-box;}html{scroll-behavior:smooth;}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;}
-h1,h2,h3,h4{font-family:var(--font-head);color:var(--ink);line-height:1.15;margin:0;}
-p{margin:0 0 1em 0;}a{color:var(--primary);}
-code{font-family:var(--font-mono);background:var(--surface-2);padding:.1rem .4rem;border-radius:5px;font-size:.9em;}
-::selection{background:var(--primary-soft);color:var(--ink);}
-#progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:100;transition:width .1s;}
-.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:.6rem 1.25rem;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
-.topbar .brand{font-family:var(--font-head);font-weight:600;font-size:1.05rem;color:var(--ink);display:flex;gap:.5rem;align-items:baseline;}
-.topbar .brand small{font-family:var(--font-body);font-weight:600;color:var(--primary);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;background:var(--primary-soft);padding:.15rem .5rem;border-radius:100px;}
-.icon-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:100px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;}
-.icon-btn:hover{border-color:var(--primary);}
-.wrap{display:grid;grid-template-columns:230px minmax(0,780px);gap:2.5rem;max-width:1080px;margin:0 auto;padding:0 1.25rem 6rem;}
-@media(max-width:900px){.wrap{grid-template-columns:1fr;}.toc{display:none;}}
-.toc{position:sticky;top:70px;align-self:start;padding-top:2rem;font-size:.85rem;max-height:calc(100vh - 90px);overflow-y:auto;}
-.toc-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:.6rem;}
-.toc a{display:block;color:var(--muted);text-decoration:none;padding:.26rem 0 .26rem .7rem;border-left:2px solid var(--border);margin-bottom:.02rem;transition:all .15s;font-size:.83rem;}
-.toc a.active{color:var(--primary);border-left-color:var(--primary);font-weight:600;}
-.toc a:hover{color:var(--ink);}
-main{min-width:0;padding-top:2rem;}
-.hero{padding:1rem 0 2.5rem;}
-.hero .kicker{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--bridge);font-weight:700;margin-bottom:.7rem;}
-.hero h1{font-size:2.6rem;font-weight:600;margin-bottom:.7rem;}
-.hero .sub{font-size:1.12rem;color:var(--muted);max-width:60ch;}
-.recap-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem;}
-.recap-chip{font-size:.8rem;background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:.35rem .75rem;border-radius:100px;}
-.section{margin:3.2rem 0;}
-.eyebrow{font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);font-weight:700;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem;}
-.eyebrow .num{background:var(--primary);color:#fff;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.68rem;font-family:var(--font-body);}
-.section h2{font-size:1.8rem;font-weight:600;margin-bottom:.85rem;}
-.section h3{font-size:1.24rem;font-weight:600;margin:1.6rem 0 .6rem;}
-.lede{font-size:1.03rem;}
-.code-card{background:var(--code-bg);border-radius:var(--radius-card);overflow:hidden;margin:1.1rem 0;box-shadow:0 8px 24px -12px rgba(20,15,60,.35);}
-.code-head{display:flex;align-items:center;justify-content:space-between;padding:.5rem .9rem;background:var(--code-header);border-bottom:1px solid rgba(255,255,255,.06);}
-.code-label{font-family:var(--font-mono);font-size:.72rem;color:var(--code-text);opacity:.65;}
-.copy-btn{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--code-text);font-size:.68rem;font-family:var(--font-body);padding:.28rem .6rem;border-radius:6px;cursor:pointer;opacity:.75;}
-.copy-btn:hover{opacity:1;}
-.code-body{padding:.95rem 1.1rem;overflow-x:auto;}
-.code-src{margin:0;font-family:var(--font-mono);font-size:.87rem;color:var(--code-text);white-space:pre;line-height:1.65;}
-.tk-c{color:var(--code-comment);font-style:italic;}.tk-s{color:var(--code-string);}.tk-k{color:var(--code-keyword);font-weight:600;}.tk-f{color:var(--code-builtin);}.tk-n{color:var(--code-number);}.tk-o{color:var(--code-operator);}
-.io-block{border-radius:var(--radius-sm);border:1px solid var(--border);overflow:hidden;background:var(--surface);margin:.7rem 0;}
-.io-block .io-tag{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;padding:.4rem .7rem;}
-.io-block.output .io-tag{color:var(--success);background:var(--success-soft);}
-.io-block pre{margin:0;padding:.7rem .8rem;font-family:var(--font-mono);font-size:.85rem;color:var(--ink);white-space:pre-wrap;}
-.callout{border-radius:var(--radius-card);padding:1rem 1.15rem;margin:1.1rem 0;border-left:4px solid;font-size:.95rem;}
-.callout .callout-title{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem;display:flex;align-items:center;gap:.4rem;}
-.callout.bridge{background:var(--bridge-soft);border-color:var(--bridge);}.callout.bridge .callout-title{color:var(--bridge);}
-.callout.warning{background:var(--warning-soft);border-color:var(--warning);}.callout.warning .callout-title{color:var(--warning);}
-.callout.primary{background:var(--primary-soft);border-color:var(--primary);}.callout.primary .callout-title{color:var(--primary-strong);}
-.callout.success{background:var(--success-soft);border-color:var(--success);}.callout.success .callout-title{color:var(--success);}
-.tbl-wrap{overflow-x:auto;margin:1rem 0;}
-table.op-table{width:100%;border-collapse:collapse;font-size:.92rem;background:var(--surface);border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);}
-table.op-table th{background:var(--surface-2);color:var(--ink);text-align:left;padding:.6rem .8rem;font-weight:700;font-size:.78rem;text-transform:uppercase;}
-table.op-table td{padding:.55rem .8rem;border-top:1px solid var(--border);vertical-align:top;}
-table.op-table td code{font-family:var(--font-mono);background:var(--surface-2);padding:.1rem .4rem;border-radius:5px;font-size:.86rem;}
-.tryit-card{border-radius:var(--radius-card);overflow:hidden;margin:.7rem 0 1.2rem;border:1px solid var(--border);box-shadow:0 8px 24px -14px rgba(20,15,60,.3);}
-.tryit-head{display:flex;align-items:center;justify-content:space-between;padding:.5rem .9rem;background:var(--primary-soft);border-bottom:1px solid var(--border);}
-.tryit-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--primary-strong);}
-.tryit-btns{display:flex;gap:.4rem;}
-.tryit-run,.tryit-reset{border:none;border-radius:6px;font-size:.72rem;font-weight:700;padding:.32rem .7rem;cursor:pointer;font-family:var(--font-body);}
-.tryit-run{background:var(--primary);color:#fff;}.tryit-run:hover{background:var(--primary-strong);}.tryit-run:disabled{opacity:.6;cursor:wait;}
-.tryit-reset{background:transparent;border:1px solid var(--primary);color:var(--primary-strong);}
-.tryit-input{width:100%;min-height:80px;background:var(--code-bg);color:var(--code-text);font-family:var(--font-mono);font-size:.87rem;border:none;padding:.9rem 1.1rem;resize:vertical;line-height:1.6;display:block;}
-.tryit-input:focus{outline:2px solid var(--primary);outline-offset:-2px;}
-.tryit-status{display:none;padding:.5rem .9rem;font-size:.78rem;color:var(--muted);background:var(--surface-2);font-style:italic;}
-.tryit-output-tag{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;font-weight:700;padding:.4rem .9rem;background:var(--surface-2);color:var(--muted);display:none;}
-.tryit-output-tag.shown{display:block;}
-.tryit-output{margin:0;padding:.8rem 1.1rem;font-family:var(--font-mono);font-size:.85rem;background:var(--code-bg);color:var(--code-text);white-space:pre-wrap;display:none;min-height:1.4em;}
-.tryit-output.shown{display:block;}
+:root {
+  --primary: #4b3fd0;
+  --primary-light: #ede9ff;
+  --primary-dark: #3730a3;
+  --accent: #ef6a45;
+  --accent-light: #fff1ec;
+  --teal: #0e8f8f;
+  --teal-light: #e6f7f7;
+  --amber: #cf8710;
+  --amber-light: #fef9ee;
+  --success: #1a7f4e;
+  --success-light: #e8f9f1;
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface-2: #f3f4f6;
+  --border: #e5e7eb;
+  --text: #111827;
+  --text-2: #374151;
+  --text-3: #6b7280;
+  --code-bg: #1e1e2e;
+  --code-text: #cdd6f4;
+  --code-kw: #cba6f7;
+  --code-str: #a6e3a1;
+  --code-num: #fab387;
+  --code-fn: #89b4fa;
+  --code-cm: #6c7086;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+  --progress-h: 3px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f0f13;
+    --surface: #1a1a24;
+    --surface-2: #232330;
+    --border: #2e2e40;
+    --text: #f0f0f8;
+    --text-2: #c4c4d4;
+    --text-3: #8888a8;
+    --primary-light: #1e1a40;
+    --accent-light: #2a160e;
+    --teal-light: #0a2020;
+    --amber-light: #1e1400;
+    --success-light: #0a1a10;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f0f13;
+  --surface: #1a1a24;
+  --surface-2: #232330;
+  --border: #2e2e40;
+  --text: #f0f0f8;
+  --text-2: #c4c4d4;
+  --text-3: #8888a8;
+  --primary-light: #1e1a40;
+  --accent-light: #2a160e;
+  --teal-light: #0a2020;
+  --amber-light: #1e1400;
+  --success-light: #0a1a10;
+}
 
-/* Tableau vs Python split card */
-.tw-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:1.2rem 0;}
-@media(max-width:560px){.tw-grid{grid-template-columns:1fr;}}
-.tw-card{border-radius:var(--radius-sm);border:1px solid var(--border);overflow:hidden;}
-.tw-card .th{padding:.55rem .85rem;font-weight:700;font-size:.82rem;}
-.tw-card.tab .th{background:var(--accent-soft);color:var(--accent);}
-.tw-card.py .th{background:var(--primary-soft);color:var(--primary-strong);}
-.tw-card .tb{padding:.8rem .85rem;font-size:.84rem;}
-.tw-card .tb ul{margin:.3rem 0;padding-left:1.1rem;}
-.tw-card .tb li{margin:.2rem 0;}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+}
 
-/* anatomy table */
-.anatomy-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin:.7rem 0;font-size:.84rem;}
-@media(max-width:580px){.anatomy-row{grid-template-columns:1fr;}}
-.anatomy-cell{background:var(--surface-2);border-radius:var(--radius-sm);padding:.6rem .75rem;border:1px solid var(--border);}
-.anatomy-cell .ac-label{font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem;}
+/* Progress bar */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: var(--progress-h);
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  width: 0%;
+  z-index: 1000;
+  transition: width .1s linear;
+}
 
-/* matplotlib 4 essentials */
-.mpl-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin:.9rem 0;}
-@media(max-width:520px){.mpl-grid{grid-template-columns:1fr;}}
-.mpl-card{border-radius:var(--radius-sm);border:1px solid var(--border);padding:.75rem .9rem;background:var(--surface);}
-.mpl-card .mn{font-family:var(--font-mono);font-weight:700;color:var(--primary);font-size:.9rem;margin-bottom:.3rem;}
-.mpl-card .mc{font-size:.83rem;color:var(--text);}
+/* Header */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  position: sticky;
+  top: var(--progress-h);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+.header-left { display: flex; align-items: center; gap: .75rem; }
+.header-tag {
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: .2rem .55rem;
+  border-radius: 4px;
+}
+.header-title { font-size: .88rem; font-weight: 600; color: var(--text-2); }
+.theme-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-2);
+  cursor: pointer;
+  font-size: .85rem;
+  padding: .3rem .65rem;
+  transition: background .2s;
+}
+.theme-btn:hover { background: var(--border); }
 
-/* chart type selector (interactive) */
-.chart-selector{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);overflow:hidden;margin:1.2rem 0;}
-.cs-tabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--border);}
-.cs-tab{padding:.55rem 1rem;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;border:none;background:transparent;color:var(--muted);font-family:var(--font-body);}
-.cs-tab.active{color:var(--primary);border-bottom:2px solid var(--primary);margin-bottom:-1px;}
-.cs-panel{display:none;padding:1.1rem;font-size:.88rem;}
-.cs-panel.active{display:block;animation:fade .2s ease;}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.cs-use{font-weight:700;color:var(--ink);margin-bottom:.4rem;}
-.cs-fn{font-family:var(--font-mono);background:var(--primary-soft);color:var(--primary-strong);padding:.25rem .55rem;border-radius:6px;font-size:.87rem;display:inline-block;margin:.3rem .2rem .3rem 0;}
+/* Layout */
+.layout { display: flex; max-width: 1200px; margin: 0 auto; }
 
-/* box plot anatomy SVG */
-.boxplot-vis{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);padding:1.2rem;margin:1.2rem 0;}
+/* TOC */
+#toc {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: calc(52px + var(--progress-h));
+  height: calc(100vh - 52px - var(--progress-h));
+  overflow-y: auto;
+  padding: 1.5rem 1rem 2rem;
+  border-right: 1px solid var(--border);
+}
+#toc h3 {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: .75rem;
+  padding-left: .5rem;
+}
+#toc ul { list-style: none; }
+#toc li a {
+  display: block;
+  font-size: .8rem;
+  color: var(--text-3);
+  text-decoration: none;
+  padding: .28rem .5rem;
+  border-radius: 5px;
+  border-left: 2px solid transparent;
+  transition: all .15s;
+  line-height: 1.35;
+}
+#toc li a:hover { color: var(--primary); background: var(--primary-light); }
+#toc li a.active { color: var(--primary); border-left-color: var(--primary); background: var(--primary-light); font-weight: 600; }
+#toc li.sub a { padding-left: 1.25rem; }
 
-/* heatmap mini preview */
-.heatmap-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;max-width:380px;margin:1rem auto;font-size:.75rem;font-family:var(--font-mono);}
-.hm-cell{border-radius:4px;padding:.45rem .2rem;text-align:center;font-weight:700;font-size:.72rem;}
-.hm-row-label{font-size:.7rem;font-weight:700;color:var(--muted);display:flex;align-items:center;padding-right:.4rem;}
+/* Main content */
+main {
+  flex: 1;
+  min-width: 0;
+  padding: 2.5rem 3rem 4rem;
+}
 
-/* correlation scale */
-.corr-scale{display:flex;height:20px;border-radius:6px;overflow:hidden;margin:.5rem 0;font-size:.75rem;}
-.cs-neg{flex:1;background:linear-gradient(90deg,#3b5bdb,#91a7ff);}
-.cs-zero{width:8px;background:#f8f9fa;}
-.cs-pos{flex:1;background:linear-gradient(90deg,#ffaaa5,#c92a2a);}
+/* Hero */
+.hero {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.hero-eyebrow {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: .75rem;
+}
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: .8rem;
+}
+.hero-meta { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.hero-chip {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .82rem;
+  color: var(--text-3);
+}
+.hero-chip svg { opacity: .7; }
 
-/* decision framework */
-.decision-grid{display:grid;grid-template-columns:1fr;gap:.6rem;margin:1rem 0;}
-.dec-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;align-items:start;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border);padding:.65rem .85rem;font-size:.84rem;}
-@media(max-width:580px){.dec-row{grid-template-columns:1fr;}}
-.dec-row .dr-type{font-weight:700;color:var(--ink);}
-.dec-row .dr-chart{font-family:var(--font-mono);color:var(--primary);}
-.dec-row .dr-when{color:var(--muted);}
+/* Section headings */
+.section-block { margin-bottom: 3rem; }
+h2.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 2px solid var(--primary-light);
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+h2.section-title .num {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+h3.sub-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 1.75rem 0 .75rem;
+}
 
-/* interview checklist */
-.checklist{background:var(--success-soft);border:1px solid var(--success);border-radius:var(--radius-card);padding:1rem 1.15rem;margin:1.1rem 0;}
-.checklist .cl-title{font-weight:700;font-size:.82rem;color:var(--success);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.04em;}
-.checklist ol{margin:0;padding-left:1.3rem;font-size:.9rem;}
-.checklist li{margin:.3rem 0;}
+p { color: var(--text-2); margin-bottom: .9rem; }
+p:last-child { margin-bottom: 0; }
 
-/* styles preview */
-.styles-row{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0;}
-.style-pill{background:var(--surface-2);border:1px solid var(--border);border-radius:100px;padding:.3rem .75rem;font-family:var(--font-mono);font-size:.8rem;}
-.style-pill.recommended{border-color:var(--success);background:var(--success-soft);color:var(--success);font-weight:700;}
+/* Code blocks */
+.code-block {
+  background: var(--code-bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 1rem 0;
+  box-shadow: var(--shadow);
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.code-lang {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  color: #6c7086;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.copy-btn {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 4px;
+  color: #888;
+  cursor: pointer;
+  font-size: .72rem;
+  padding: .2rem .5rem;
+  transition: all .2s;
+}
+.copy-btn:hover { background: rgba(255,255,255,.14); color: #cdd6f4; }
+.copy-btn.copied { color: #a6e3a1; border-color: #a6e3a1; }
+pre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .84rem;
+  line-height: 1.65;
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  color: var(--code-text);
+}
+.kw { color: var(--code-kw); }
+.str { color: var(--code-str); }
+.num { color: var(--code-num); }
+.fn { color: var(--code-fn); }
+.cm { color: var(--code-cm); font-style: italic; }
+.at { color: #f38ba8; }
+.imp { color: #f38ba8; }
 
-.quiz{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);padding:1.3rem;margin:1.4rem 0;}
-.quiz-tag{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:.5rem;}
-.quiz-q{font-weight:600;color:var(--ink);margin-bottom:.9rem;font-size:1.02rem;}
-.quiz-opts{display:flex;flex-direction:column;gap:.55rem;}
-.quiz-opt{border:1px solid var(--border);border-radius:var(--radius-sm);padding:.65rem .9rem;cursor:pointer;font-size:.88rem;display:flex;gap:.6rem;align-items:flex-start;background:var(--bg);}
-.quiz-opt:hover{border-color:var(--primary);}
-.quiz-opt.correct{background:var(--success-soft);border-color:var(--success);color:var(--success);}
-.quiz-opt.incorrect{background:var(--danger-soft);border-color:var(--danger);color:var(--danger);}
-.quiz-explain{display:none;margin-top:.9rem;padding:.9rem 1rem;background:var(--surface-2);border-radius:var(--radius-sm);font-size:.9rem;}
-.quiz-explain.shown{display:block;animation:fade .25s ease;}
-table.summary{width:100%;border-collapse:collapse;font-size:.89rem;}
-table.summary th{background:var(--surface-2);text-align:left;padding:.55rem .75rem;font-size:.74rem;text-transform:uppercase;color:var(--muted);}
-table.summary td{padding:.6rem .75rem;border-top:1px solid var(--border);vertical-align:top;}
-table.summary td:first-child{font-weight:700;color:var(--ink);}
-table.summary td code{font-family:var(--font-mono);background:var(--surface-2);padding:.1rem .35rem;border-radius:5px;}
-footer{max-width:780px;margin:0 auto;padding:2rem 1.25rem 4rem;color:var(--muted);font-size:.85rem;text-align:center;}
+/* Output block */
+.output-block {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--text-3);
+  border-radius: var(--radius);
+  padding: .8rem 1.1rem;
+  margin: .5rem 0 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  color: var(--text-2);
+}
+.output-label {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: .4rem;
+}
+
+/* Callouts */
+.callout {
+  border-radius: var(--radius);
+  padding: .85rem 1.1rem;
+  margin: 1rem 0;
+  display: flex;
+  gap: .75rem;
+  align-items: flex-start;
+}
+.callout-icon { font-size: 1.05rem; flex-shrink: 0; margin-top: .05rem; }
+.callout-body { flex: 1; }
+.callout-title {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  margin-bottom: .3rem;
+}
+.callout-body p { font-size: .9rem; margin-bottom: 0; color: inherit; }
+.callout-body code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  background: rgba(0,0,0,.1);
+  padding: .1em .3em;
+  border-radius: 3px;
+}
+.callout.bridge { background: var(--teal-light); border-left: 3px solid var(--teal); }
+.callout.bridge .callout-title { color: var(--teal); }
+.callout.bridge p { color: var(--teal); }
+.callout.warning { background: var(--amber-light); border-left: 3px solid var(--amber); }
+.callout.warning .callout-title { color: var(--amber); }
+.callout.warning p { color: var(--amber); }
+.callout.primary { background: var(--primary-light); border-left: 3px solid var(--primary); }
+.callout.primary .callout-title { color: var(--primary); }
+.callout.primary p { color: var(--primary); }
+.callout.success { background: var(--success-light); border-left: 3px solid var(--success); }
+.callout.success .callout-title { color: var(--success); }
+.callout.success p { color: var(--success); }
+.callout.sql { background: var(--surface-2); border-left: 3px solid var(--text-3); }
+.callout.sql .callout-title { color: var(--text-3); }
+.callout.sql pre { background: none; padding: 0; font-size: .83rem; color: var(--text-2); }
+
+/* Tables */
+.table-wrap { overflow-x: auto; margin: 1rem 0; }
+table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+thead th {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  padding: .6rem .85rem;
+  text-align: left;
+}
+tbody tr:nth-child(even) { background: var(--surface-2); }
+tbody td { padding: .55rem .85rem; color: var(--text-2); border-bottom: 1px solid var(--border); }
+tbody td code { font-family: 'JetBrains Mono', monospace; font-size: .8rem; background: var(--primary-light); color: var(--primary); padding: .1em .35em; border-radius: 3px; }
+
+/* Session objective block */
+.session-obj {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  margin: 1.25rem 0;
+  box-shadow: var(--shadow);
+}
+.session-obj .obj-title {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: .65rem;
+}
+.session-obj ul { list-style: none; padding: 0; }
+.session-obj li {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  font-size: .9rem;
+  color: var(--text-2);
+  padding: .35rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.session-obj li:last-child { border-bottom: none; }
+.session-obj li::before { content: "→"; color: var(--primary); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+
+/* Quiz */
+.quiz-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.4rem;
+  margin: 1.5rem 0;
+  box-shadow: var(--shadow);
+}
+.quiz-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .9rem;
+}
+.quiz-badge {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  background: var(--primary);
+  color: #fff;
+  padding: .2rem .55rem;
+  border-radius: 4px;
+}
+.quiz-q {
+  font-size: .97rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+.quiz-options { display: flex; flex-direction: column; gap: .5rem; }
+.quiz-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  cursor: pointer;
+  padding: .55rem .85rem;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  transition: all .2s;
+  font-size: .9rem;
+  color: var(--text-2);
+  background: var(--surface-2);
+  user-select: none;
+}
+.quiz-opt:hover:not(.answered) { border-color: var(--primary); background: var(--primary-light); }
+.quiz-opt.correct { background: var(--success-light); border-color: var(--success); color: var(--success); }
+.quiz-opt.wrong { background: #fff0f0; border-color: #dc2626; color: #dc2626; }
+.quiz-opt .letter {
+  font-weight: 700;
+  font-size: .82rem;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.quiz-feedback {
+  display: none;
+  margin-top: .9rem;
+  padding: .75rem 1rem;
+  border-radius: 7px;
+  font-size: .88rem;
+  line-height: 1.5;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: var(--success-light); color: var(--success); border-left: 3px solid var(--success); }
+.quiz-feedback.wrong-fb { background: #fff0f0; color: #dc2626; border-left: 3px solid #dc2626; }
+
+/* Try-it cell */
+.try-cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.try-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .6rem 1rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+.try-badge {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.try-badge svg { opacity: .8; }
+.run-btn {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: .82rem;
+  font-weight: 600;
+  padding: .35rem .85rem;
+  transition: background .2s;
+}
+.run-btn:hover { background: var(--primary-dark); }
+.run-btn:disabled { opacity: .55; cursor: not-allowed; }
+.try-editor {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .84rem;
+  padding: 1rem 1.25rem;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: var(--code-bg);
+  color: var(--code-text);
+  line-height: 1.65;
+  resize: vertical;
+  min-height: 120px;
+}
+.try-output {
+  display: none;
+  padding: .8rem 1.1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  line-height: 1.6;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+  color: var(--text-2);
+  white-space: pre-wrap;
+}
+.try-output.show { display: block; }
+.try-output.error { color: #dc2626; }
+.loading-py {
+  display: none;
+  padding: .6rem 1rem;
+  font-size: .8rem;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.loading-py.show { display: flex; align-items: center; gap: .5rem; }
+.spinner {
+  width: 14px; height: 14px;
+  border: 2px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* AI prompt callout */
+.ai-prompt {
+  background: var(--surface-2);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: .9rem 1.1rem;
+  margin: 1rem 0;
+}
+.ai-prompt-title {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.ai-prompt blockquote {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .83rem;
+  line-height: 1.6;
+  color: var(--text-2);
+  background: var(--surface);
+  border-left: 3px solid var(--primary);
+  padding: .65rem .9rem;
+  border-radius: 0 6px 6px 0;
+  margin: .5rem 0;
+}
+.ai-prompt p { font-size: .88rem; color: var(--text-3); margin-top: .5rem; margin-bottom: 0; font-style: italic; }
+
+/* Chart decision table */
+.decision-table {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+/* Anatomy table */
+.anatomy-row td:first-child { font-weight: 600; color: var(--primary); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  #toc { display: none; }
+  main { padding: 1.5rem 1.25rem 3rem; }
+}
+
+/* Print */
+@media print {
+  #toc, header, #progress-bar { display: none; }
+  main { padding: 0; }
+}
+
+/* Misc */
+strong { font-weight: 600; color: var(--text); }
+code { font-family: 'JetBrains Mono', monospace; font-size: .85em; background: var(--primary-light); color: var(--primary); padding: .12em .35em; border-radius: 3px; }
+ul, ol { padding-left: 1.4rem; color: var(--text-2); }
+ul li, ol li { margin-bottom: .35rem; }
+
+.divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+.section-block + .section-block { border-top: 1px solid var(--border); padding-top: 2.5rem; }
 </style>
 </head>
 <body>
-<div id="progress"></div>
-<div class="topbar">
-  <div class="brand">Data Visualization <small>Post-read</small></div>
-  <button class="icon-btn" id="themeToggle" title="Toggle theme">🌗</button>
-</div>
-<div class="wrap">
-  <nav class="toc">
-    <div class="toc-title">On this page</div>
-    <a href="#why">Why Python visualization?</a>
-    <a href="#matplotlib">Matplotlib: 4 essentials</a>
-    <a href="#anatomy">Anatomy of a plot</a>
-    <a href="#categorical">Univariate: categorical</a>
-    <a href="#continuous">Univariate: continuous</a>
-    <a href="#boxplot">Box plot &amp; IQR</a>
-    <a href="#scatter">Bivariate: continuous</a>
-    <a href="#cat-cont">Bivariate: cat vs cont</a>
-    <a href="#heatmap">Correlation heatmap</a>
-    <a href="#pairplot">Pairplot</a>
-    <a href="#styling">Styling &amp; subplots</a>
-    <a href="#decision">When to use which chart</a>
-    <a href="#summary">Session summary</a>
+<div id="progress-bar"></div>
+
+<header>
+  <div class="header-left">
+    <span class="header-tag">DSML</span>
+    <span class="header-title">Data Visualization for Data Analytics</span>
+  </div>
+  <button class="theme-btn" id="theme-toggle" aria-label="Toggle theme">🌙 Dark</button>
+</header>
+
+<div class="layout">
+  <!-- TOC -->
+  <nav id="toc" aria-label="Table of contents">
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#s1">1. Why Python Visualization?</a></li>
+      <li><a href="#s2">2. Matplotlib Foundations</a></li>
+      <li><a href="#s3">3. Anatomy of a Plot</a></li>
+      <li><a href="#s4">4. Univariate: Categorical</a></li>
+      <li class="sub"><a href="#s4-countplot">Countplot</a></li>
+      <li class="sub"><a href="#s4-barplot">Barplot (Frequency)</a></li>
+      <li class="sub"><a href="#s4-pie">Pie Chart</a></li>
+      <li><a href="#s5">5. Univariate: Continuous</a></li>
+      <li class="sub"><a href="#s5-hist">Histogram</a></li>
+      <li class="sub"><a href="#s5-kde">KDE Plot</a></li>
+      <li class="sub"><a href="#s5-box">Box Plot</a></li>
+      <li><a href="#s6">6. AI as Chart Companion</a></li>
+      <li><a href="#s7">7. Bivariate: Cont × Cont</a></li>
+      <li class="sub"><a href="#s7-scatter">Scatter Plot</a></li>
+      <li class="sub"><a href="#s7-line">Line Plot</a></li>
+      <li><a href="#s8">8. Bivariate: Cat × Cont</a></li>
+      <li class="sub"><a href="#s8-bar">Grouped Bar Plot</a></li>
+      <li class="sub"><a href="#s8-box">Grouped Box Plot</a></li>
+      <li><a href="#s9">9. Correlation Heatmap</a></li>
+      <li><a href="#s10">10. Styling & Sizing</a></li>
+      <li><a href="#s11">11. When to Use Which Chart</a></li>
+    </ul>
   </nav>
+
   <main>
-    <section class="hero">
-      <div class="kicker">Data Analytics · Visualization Lecture</div>
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-eyebrow">Scaler DSML · Post-Read</div>
       <h1>Data Visualization for Data Analytics</h1>
-      <p class="sub">From Tableau to Python — why the switch, Matplotlib's four essentials, and the full chart toolkit: countplot, barplot, histogram, KDE, box plot, scatter, heatmap, pairplot, and subplots.</p>
-      <div class="recap-row">
-        <span class="recap-chip">Seaborn + Matplotlib</span>
-        <span class="recap-chip">Video Games Sales dataset</span>
-        <span class="recap-chip">Pandas groupby &amp; corr()</span>
-        <span class="recap-chip">EDA interview patterns</span>
-      </div>
-    </section>
-
-    <!-- WHY -->
-    <section class="section" id="why">
-      <div class="eyebrow"><span class="num">1</span>Context</div>
-      <h2>Why Python visualization? (Tableau users' perspective)</h2>
-      <p class="lede">This is something interviewers actually ask: "Why would you use Python for visualization instead of Tableau or Power BI?" The answer isn't that one is better — they serve different purposes.</p>
-      <div class="tw-grid">
-        <div class="tw-card tab">
-          <div class="th">📊 Tableau — communicate &amp; dashboard</div>
-          <div class="tb"><ul>
-            <li>Interactive dashboards for non-technical stakeholders</li>
-            <li>Rapid drag-and-drop visual exploration</li>
-            <li>Polished presentation-ready visuals with minimal effort</li>
-            <li>VP-level reporting that non-technical users can self-serve</li>
-          </ul></div>
+      <div class="hero-meta">
+        <div class="hero-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          ~30 min read
         </div>
-        <div class="tw-card py">
-          <div class="th">🐍 Python — analyse &amp; automate</div>
-          <div class="tb"><ul>
-            <li>EDA inside a pipeline — no one there to drag and drop</li>
-            <li>Reproducible: notebook is both analysis and documentation</li>
-            <li>Correlation heatmaps, pairplots, multi-panel grids — impossible or clunky in Tableau</li>
-            <li>Charts sit right next to data-cleaning and modelling code</li>
-          </ul></div>
+        <div class="hero-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Seaborn · Matplotlib · Pandas
+        </div>
+        <div class="hero-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Dataset: Video Games Sales
+        </div>
+        <div class="hero-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          4 Quizzes · 5 Try-it cells
+        </div>
+      </div>
+    </div>
+
+    <!-- S1 -->
+    <div class="section-block" id="s1">
+      <h2 class="section-title"><span class="num">1</span> Why Python Visualization? (Tableau Users' Perspective)</h2>
+      <p>You've already built charts in Tableau — drag a dimension to columns, drop a measure on rows, and you get a clean bar chart in seconds. Tableau is fantastic for that. So the natural question is: why would you bother writing code to make the same chart?</p>
+      <p>This question comes up in interviews. "Why use Python for visualization instead of Tableau or Power BI?" The answer isn't that one is better — it's that they serve different purposes in a real analyst workflow.</p>
+      <p><strong>Tableau</strong> is a communication and dashboarding tool — built for interactive exploration, polished dashboards for business stakeholders, and letting non-technical people filter data themselves. If your goal is a dashboard your VP checks every Monday morning, Tableau is probably the right tool.</p>
+      <p><strong>Python visualization</strong> is an analytical and automation tool. It lives inside your analysis notebook — for exploring data, checking distributions, spotting outliers, validating assumptions, and crucially, it can be automated.</p>
+      <p>Python wins when you need:</p>
+      <ul>
+        <li><strong>Automation</strong> — EDA inside a pipeline; no one is there to drag and drop.</li>
+        <li><strong>Reproducibility</strong> — your notebook is your documentation; someone opens it six months later and sees exactly what you did.</li>
+        <li><strong>Customization beyond GUI limits</strong> — correlation heatmaps, multi-panel grids are either impossible or clunky in Tableau.</li>
+        <li><strong>Integration with analysis</strong> — your chart sits right next to the data-cleaning code and right before the modelling code.</li>
+      </ul>
+      <p>Tableau wins for interactive dashboards, rapid visual exploration, and polished presentation-ready visuals with minimal effort.</p>
+      <div class="callout bridge">
+        <span class="callout-icon">🌉</span>
+        <div class="callout-body">
+          <div class="callout-title">Cross-Tech Bridge · Tableau</div>
+          <p>In Tableau, you explore data by pointing and clicking. In Python, you explore data by writing code. The analytical thinking is identical — the interface is different. By the end of this lecture, you'll be able to build the chart types you use most in Tableau, but in code, with some things Tableau simply can't do easily.</p>
         </div>
       </div>
       <div class="callout bridge">
-        <div class="callout-title">🌉 Tableau bridge</div>
-        In Tableau, you explore data by pointing and clicking. In Python, you explore data by writing code. The analytical thinking is identical. The interface is different. By the end of this lecture, you'll be able to do everything Tableau's chart builder does — plus some things Tableau simply cannot do easily.
+        <span class="callout-icon">🌉</span>
+        <div class="callout-body">
+          <div class="callout-title">Cross-Tech Bridge · SQL</div>
+          <p>If you've used SQL, think about GROUP BY queries — you get aggregated numbers in a table, and Tableau visualizes that aggregation as a chart. Python visualization does both: you process data with Pandas (like SQL) and visualize it with Seaborn (like Tableau), all in one notebook.</p>
+        </div>
       </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="section-block" id="s2">
+      <h2 class="section-title"><span class="num">2</span> Matplotlib Foundations: Just Enough</h2>
+      <p>Matplotlib is a massive library — you could spend an entire week on it. We're learning exactly <strong>four things</strong>, because these four things let you produce professional-looking charts for every interview or EDA notebook you create.</p>
+      <p>First, set up your environment and load the dataset:</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># Import libraries</span>
+<span class="imp">import</span> pandas <span class="imp">as</span> pd
+<span class="imp">import</span> matplotlib.pyplot <span class="imp">as</span> plt
+<span class="imp">import</span> seaborn <span class="imp">as</span> sns
+
+<span class="cm"># Load the Video Games Sales dataset</span>
+<span class="at">!gdown</span> 1iwgPA5Y8sjhnRUhSfV03EWKJMg4xw_x5 <span class="at">-O</span> vgsales.csv
+
+vg <span class="kw">=</span> pd.read_csv(<span class="str">'vgsales.csv'</span>)
+vg.head()</pre>
+      </div>
+
+      <p>This gives us a dataset of video game sales with columns for platform, genre, publisher, regional sales, and global sales — used throughout the entire lecture.</p>
+
+      <h3 class="sub-title">The Four Matplotlib Essentials</h3>
+
+      <p><strong>1. Figure Sizing</strong></p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">10</span>, <span class="num">5</span>))</pre>
+      </div>
+      <p>Controls how big your chart appears — width and height in inches. Think of it as resizing a chart element in Tableau's dashboard view, except here you specify exact dimensions.</p>
+
+      <p><strong>2. Titles and Axis Labels</strong></p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.title(<span class="str">'Global Sales by Genre'</span>)
+plt.xlabel(<span class="str">'Genre'</span>)
+plt.ylabel(<span class="str">'Global Sales (in millions)'</span>)</pre>
+      </div>
+      <p>Every chart — in an interview, in a notebook, anywhere — must have a title and labelled axes. A chart without labels is like a table without column headers.</p>
+
       <div class="callout bridge">
-        <div class="callout-title">🌉 SQL bridge</div>
-        You write a GROUP BY query → get numbers in a table → Tableau visualizes it as a chart. Python does both: Pandas processes data (like SQL) and Seaborn visualizes it (like Tableau), all in one notebook.
-      </div>
-    </section>
-
-    <!-- MATPLOTLIB -->
-    <section class="section" id="matplotlib">
-      <div class="eyebrow"><span class="num">2</span>Foundations</div>
-      <h2>Matplotlib: exactly four things you need</h2>
-      <p class="lede">Matplotlib is a massive library. We are learning exactly four things from it — enough to produce professional-looking charts for every EDA notebook or interview submission.</p>
-      <div class="code-card"><div class="code-head"><span class="code-label">python — environment setup</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-vg = pd.read_csv('vgsales.csv')
-vg.head()</pre></div></div>
-      <div class="mpl-grid">
-        <div class="mpl-card">
-          <div class="mn">1. Figure Sizing</div>
-          <div class="mc"><code>plt.figure(figsize=(10, 5))</code><br>Width × height in inches. Without this, charts can be too small or too large. Like resizing a chart element in Tableau's dashboard view.</div>
-        </div>
-        <div class="mpl-card">
-          <div class="mn">2. Titles &amp; Axis Labels</div>
-          <div class="mc"><code>plt.title('...')</code><br><code>plt.xlabel('...')</code><br><code>plt.ylabel('...')</code><br>A chart without labels is like a table without column headers.</div>
-        </div>
-        <div class="mpl-card">
-          <div class="mn">3. plt.show()</div>
-          <div class="mc">Renders the chart cleanly and clears figure state for the next chart. Always call it explicitly — good practice even in Colab where plots auto-render.</div>
-        </div>
-        <div class="mpl-card">
-          <div class="mn">4. Figure vs Axes</div>
-          <div class="mc"><b>Figure</b> = the entire canvas.<br><b>Axes</b> = individual chart area within it. For now: one chart per figure. In styling we'll put two side by side.</div>
+        <span class="callout-icon">🌉</span>
+        <div class="callout-body">
+          <div class="callout-title">Cross-Tech Bridge · Tableau</div>
+          <p>In Tableau, you format titles and axis labels through the GUI formatting panel. Here, you achieve the same outcome with three lines of code.</p>
         </div>
       </div>
-      <div class="code-card"><div class="code-head"><span class="code-label">python — all four together</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">plt.figure(figsize=(10, 5))
-plt.title('Placeholder Chart')
-plt.xlabel('X Axis Label')
-plt.ylabel('Y Axis Label')
-plt.show()</pre></div></div>
-    </section>
 
-    <!-- ANATOMY -->
-    <section class="section" id="anatomy">
-      <div class="eyebrow"><span class="num">3</span>Foundations</div>
-      <h2>Anatomy of a plot — Tableau to Python mapping</h2>
-      <p class="lede">Every chart — Tableau, Excel, or Python — has the same components. Here's the direct mapping.</p>
-      <div class="tbl-wrap"><table class="op-table">
-        <tr><th>Component</th><th>In Tableau</th><th>In Python (Matplotlib / Seaborn)</th></tr>
-        <tr><td>Title</td><td>Edit title in the sheet tab</td><td><code>plt.title('...')</code></td></tr>
-        <tr><td>X-Axis</td><td>Drag field to Columns</td><td><code>x='column_name'</code> parameter</td></tr>
-        <tr><td>Y-Axis</td><td>Drag field to Rows</td><td><code>y='column_name'</code> or automatic count</td></tr>
-        <tr><td>Axis Labels</td><td>Right-click axis → Edit</td><td><code>plt.xlabel('...')</code>, <code>plt.ylabel('...')</code></td></tr>
-        <tr><td>Legend</td><td>Color / Size shelf</td><td><code>hue='column_name'</code> parameter</td></tr>
-        <tr><td>Data Marks</td><td>Marks card (bar, circle, line)</td><td>Choice of plot function: <code>barplot</code>, <code>scatterplot</code>, <code>lineplot</code></td></tr>
-      </table></div>
+      <p><strong>3. Displaying the Plot</strong></p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.show()</pre>
+      </div>
+      <p>In Colab, plots often render automatically, but calling <code>plt.show()</code> explicitly ensures the chart renders cleanly and clears the figure state for your next chart.</p>
+
+      <p><strong>4. Figure vs Axes (One Sentence)</strong></p>
+      <p>A <strong>Figure</strong> is the entire canvas. <strong>Axes</strong> are the individual chart areas within that canvas. For now, we'll use one chart per figure. Later, we'll place charts side by side to compare them.</p>
+    </div>
+
+    <!-- S3 -->
+    <div class="section-block" id="s3">
+      <h2 class="section-title"><span class="num">3</span> Anatomy of a Plot: Connecting to Tableau</h2>
+      <p>Every chart — whether built in Tableau, Excel, or Python — has the same core components. Here's how they map to what you already know:</p>
+      <div class="table-wrap">
+        <table class="anatomy-row">
+          <thead>
+            <tr><th>Component</th><th>In Tableau</th><th>In Python (Matplotlib/Seaborn)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Title</td><td>Edit title in the sheet tab</td><td><code>plt.title('...')</code></td></tr>
+            <tr><td>X-Axis</td><td>Drag field to Columns</td><td><code>x='column_name'</code> parameter</td></tr>
+            <tr><td>Y-Axis</td><td>Drag field to Rows</td><td><code>y='column_name'</code> or automatic count</td></tr>
+            <tr><td>Axis Labels</td><td>Right-click axis to edit</td><td><code>plt.xlabel('...')</code>, <code>plt.ylabel('...')</code></td></tr>
+            <tr><td>Data Marks</td><td>Marks card (bar, circle, line)</td><td>Choice of plot function (<code>barplot</code>, <code>scatterplot</code>, <code>lineplot</code>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The key insight: every Seaborn function you'll learn today maps directly to something you've already done in Tableau. The vocabulary is the same. The logic is the same. Only the interface changes — instead of dragging, you type.</p>
+    </div>
+
+    <!-- S4 -->
+    <div class="section-block" id="s4">
+      <h2 class="section-title"><span class="num">4</span> Univariate Analysis: Categorical Data</h2>
+
+      <div class="session-obj">
+        <div class="obj-title">🎯 Session Objective: The Manager's Questions</div>
+        <ul>
+          <li>Which genre has the most games in our catalog?</li>
+          <li>What does the distribution of global sales look like?</li>
+          <li>Do games that sell well in North America also sell well in Europe?</li>
+          <li>How has the number of game releases changed over the years?</li>
+          <li>Which genre generates the highest average global sales?</li>
+          <li>Which regional sales figures are most closely related to global sales? And which regions' sales are least closely linked to each other?</li>
+        </ul>
+      </div>
+
+      <p>The natural starting point in any EDA is to look at one variable at a time — <strong>univariate analysis</strong>. We start with categorical variables because they're the simplest to visualize and interpret.</p>
+
+      <h3 class="sub-title" id="s4-countplot">Countplot</h3>
+      <p>The first manager question: "Which genre has the most games in our catalog?" Genre is categorical; we want to count how many games fall into each category. The perfect tool is <code>sns.countplot()</code> — it counts occurrences of each category and displays them as bars.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">12</span>, <span class="num">5</span>))
+sns.countplot(data=vg, x=<span class="str">'Genre'</span>)
+plt.title(<span class="str">'Number of Games by Genre'</span>)
+plt.xlabel(<span class="str">'Genre'</span>)
+plt.ylabel(<span class="str">'Count'</span>)
+plt.show()</pre>
+      </div>
+
+      <div class="callout bridge">
+        <span class="callout-icon">🌉</span>
+        <div class="callout-body">
+          <div class="callout-title">Cross-Tech Bridge · Tableau</div>
+          <p>In Tableau, you drag Genre to Columns and the system automatically adds a count to Rows. <code>sns.countplot()</code> does that count for you automatically. Same logic, different interface.</p>
+        </div>
+      </div>
+
+      <div class="callout sql">
+        <span class="callout-icon">🗄️</span>
+        <div class="callout-body">
+          <div class="callout-title">SQL Analogy</div>
+          <pre>SELECT Genre, COUNT(*) as game_count
+FROM vgsales
+GROUP BY Genre
+ORDER BY game_count DESC;</pre>
+        </div>
+      </div>
+
+      <p>When x-axis labels overlap, flip the chart by swapping x and y:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">10</span>, <span class="num">6</span>))
+sns.countplot(data=vg, y=<span class="str">'Genre'</span>)
+plt.title(<span class="str">'Number of Games by Genre'</span>)
+plt.xlabel(<span class="str">'Count'</span>)
+plt.ylabel(<span class="str">'Genre'</span>)
+plt.show()</pre>
+      </div>
+
+      <p>Use the <code>order</code> parameter to sort by frequency — a professional touch that makes the chart immediately readable:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">10</span>, <span class="num">6</span>))
+sns.countplot(data=vg, y=<span class="str">'Genre'</span>,
+              order=vg[<span class="str">'Genre'</span>].value_counts().index)
+plt.title(<span class="str">'Number of Games by Genre (Sorted)'</span>)
+plt.xlabel(<span class="str">'Count'</span>)
+plt.ylabel(<span class="str">'Genre'</span>)
+plt.show()</pre>
+      </div>
+
       <div class="callout primary">
-        <div class="callout-title">💡 The key insight</div>
-        Every Seaborn function maps directly to something you've done in Tableau. The vocabulary is the same. The logic is the same. Only the interface changes: instead of dragging, you type.
-      </div>
-    </section>
-
-    <!-- CATEGORICAL -->
-    <section class="section" id="categorical">
-      <div class="eyebrow"><span class="num">4</span>Univariate analysis</div>
-      <h2>Categorical data: countplot and barplot</h2>
-      <p class="lede">Univariate analysis looks at one variable at a time. We always start with categorical variables — they're the simplest to visualize. Question: "Which genre has the most games in our catalog?"</p>
-
-      <h3>sns.countplot() — frequency of each category</h3>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">plt.figure(figsize=(12, 5))
-sns.countplot(data=vg, x='Genre')
-plt.title('Number of Games by Genre')
-plt.xlabel('Genre')
-plt.ylabel('Count')
-plt.show()</pre></div></div>
-      <div class="code-card"><div class="code-head"><span class="code-label">python — sorted horizontal (cleaner for long labels)</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">plt.figure(figsize=(10, 6))
-sns.countplot(data=vg, y='Genre',
-              order=vg['Genre'].value_counts().index)
-plt.title('Number of Games by Genre (Sorted)')
-plt.xlabel('Count')
-plt.ylabel('Genre')
-plt.show()</pre></div></div>
-      <div class="callout success">
-        <div class="callout-title">✓ Pro tip — always sort categorical bar charts</div>
-        Sort by frequency unless there's a natural order (months, ratings). It makes the chart immediately readable and signals analytical attention to interviewers.
-      </div>
-      <div class="callout bridge">
-        <div class="callout-title">🌉 Tableau + SQL bridge</div>
-        Tableau: drag Genre to Columns → system auto-adds count to Rows. <code>sns.countplot()</code> does the count automatically.<br>SQL equivalent: <code>SELECT Genre, COUNT(*) AS game_count FROM vgsales GROUP BY Genre ORDER BY game_count DESC;</code>
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <div class="callout-title">Pro Tip</div>
+          <p>In interviews, always sort categorical bar charts by frequency unless there is a natural order (like months or ratings). It makes your analysis immediately readable. In our catalog, <strong>Action</strong> has the most games, followed by Sports.</p>
+        </div>
       </div>
 
-      <h3>sns.barplot() — aggregated metric per category</h3>
-      <p>Question: "Which genre generates the highest average global sales?" Now we're comparing an aggregate (mean), not a count.</p>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">plt.figure(figsize=(12, 5))
-sns.barplot(data=vg, x='Genre', y='Global_Sales')
-plt.title('Average Global Sales by Genre')
-plt.xlabel('Genre')
-plt.ylabel('Average Global Sales (millions)')
-plt.show()</pre></div></div>
-      <div class="callout primary">
-        <div class="callout-title">💡 countplot vs barplot</div>
-        <b>countplot</b>: How many items in each category? (frequency — no y variable needed)<br>
-        <b>barplot</b>: What is the average of a value across categories? (aggregated metric — requires both x and y)<br><br>
-        The black lines on barplot bars are confidence intervals — a long line means the data within that category is spread out.
+      <h3 class="sub-title" id="s4-barplot">Barplot (Frequency)</h3>
+      <p>The same answer can also be shown with a bar plot. The difference: <code>sns.barplot()</code> does not count for you — you compute counts first, then plot them.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>genre_counts <span class="kw">=</span> vg[<span class="str">'Genre'</span>].value_counts()
+
+plt.figure(figsize=(<span class="num">12</span>, <span class="num">5</span>))
+sns.barplot(x=genre_counts.index, y=genre_counts.values)
+plt.title(<span class="str">'Number of Games by Genre'</span>)
+plt.xlabel(<span class="str">'Genre'</span>)
+plt.ylabel(<span class="str">'Number of Games'</span>)
+plt.show()</pre>
       </div>
 
-      <h3>Pie chart (brief mention)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Countplot</th><th>Barplot (Frequency)</th></tr></thead>
+          <tbody>
+            <tr><td>Counting</td><td>Seaborn counts for you</td><td>You compute counts first (<code>value_counts()</code>)</td></tr>
+            <tr><td>Input</td><td>Pass the categorical column directly</td><td>Pass x=index, y=values</td></tr>
+            <tr><td>Analysis type</td><td>Univariate</td><td>Univariate</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>This is still univariate analysis — only one variable, Genre, is involved. The bar heights come from <code>value_counts()</code>, not from another column.</p>
+
+      <h3 class="sub-title" id="s4-pie">Pie Chart (Brief Mention)</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>genre_counts <span class="kw">=</span> vg[<span class="str">'Genre'</span>].value_counts().head(<span class="num">5</span>)
+plt.figure(figsize=(<span class="num">7</span>, <span class="num">7</span>))
+plt.pie(genre_counts, labels=genre_counts.index, autopct=<span class="str">'%1.1f%%'</span>)
+plt.title(<span class="str">'Top 5 Genres by Game Count'</span>)
+plt.show()</pre>
+      </div>
+      <p>Pie charts show proportions, but in professional data analysis and interviews, bar charts are almost always preferred. Human eyes are much better at comparing lengths (bars) than comparing angles (pie slices).</p>
       <div class="callout warning">
-        <div class="callout-title">⚠️ Avoid pie charts in professional EDA</div>
-        Pie charts show proportions but human eyes compare lengths (bars) far better than angles (slices). In interviews and professional notebooks, sorted bar charts with percentage labels are almost always preferred. Use pie charts only when explicitly requested.
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <div class="callout-title">Rule of Thumb</div>
+          <p>Use bar charts over pie charts in almost every situation. If you need to show proportions, a sorted bar chart with percentage labels is more readable than a pie chart.</p>
+        </div>
       </div>
 
-      <div class="tryit-card" data-tryit>
-        <div class="tryit-head"><span class="tryit-label">🐍 Try it yourself</span><div class="tryit-btns"><button class="tryit-run">▶ Run</button><button class="tryit-reset">Reset</button></div></div>
-        <textarea class="tryit-input" spellcheck="false">import pandas as pd, numpy as np
-np.random.seed(42)
-genres = ['Action','Sports','Shooter','RPG','Platform','Racing']
-vg = pd.DataFrame({'Genre': np.random.choice(genres, 100),
-                   'Global_Sales': np.random.exponential(0.8, 100)})
+      <!-- Try-it: countplot -->
+      <div class="try-cell">
+        <div class="try-header">
+          <div class="try-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Try It · Countplot
+          </div>
+          <button class="run-btn" onclick="runPy(this)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Run
+          </button>
+        </div>
+        <textarea class="try-editor" spellcheck="false">import pandas as pd
 
-print("=== Genre value_counts ===")
-print(vg['Genre'].value_counts())
+# Simulated genre counts (mirrors vgsales distribution)
+genres = ['Action','Sports','Misc','Role-Playing','Shooter',
+          'Adventure','Racing','Platform','Simulation','Fighting',
+          'Strategy','Puzzle']
+counts = [3316,2346,1750,1488,1323,1286,1249,886,867,848,683,582]
 
-print("\n=== Mean Global Sales by Genre ===")
-print(vg.groupby('Genre')['Global_Sales'].mean().sort_values(ascending=False).round(3))</textarea>
-        <div class="tryit-status"></div><div class="tryit-output-tag"></div><pre class="tryit-output"></pre>
+import io, sys
+
+# Print sorted genre frequency table
+df = pd.DataFrame({'Genre': genres, 'Count': counts})
+df = df.sort_values('Count', ascending=False).reset_index(drop=True)
+print(df.to_string(index=False))
+print("\nMost common genre:", df.iloc[0]['Genre'])
+print("Least common genre:", df.iloc[-1]['Genre'])</textarea>
+        <div class="loading-py"><div class="spinner"></div>Loading Python runtime…</div>
+        <div class="try-output"></div>
       </div>
-    </section>
+    </div>
 
-    <!-- CONTINUOUS -->
-    <section class="section" id="continuous">
-      <div class="eyebrow"><span class="num">5</span>Univariate analysis</div>
-      <h2>Continuous data: histogram and KDE</h2>
-      <p class="lede">For continuous variables you're analyzing a <em>distribution</em>: What's the shape? Where's the center? How spread out is the data? Are there outliers? These questions appear in virtually every Data Analyst interview.</p>
+    <!-- S5 -->
+    <div class="section-block" id="s5">
+      <h2 class="section-title"><span class="num">5</span> Univariate Analysis: Continuous Data</h2>
+      <p>When you have a continuous variable, you're analyzing a <strong>distribution</strong> — not counting categories. You want to know: What is the shape? Where is the center? How spread out is the data? Are there outliers? Three tools answer these questions.</p>
 
-      <h3>sns.histplot() — frequency bins</h3>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">plt.figure(figsize=(10, 5))
-sns.histplot(data=vg, x='Global_Sales', bins=30)
-plt.title('Distribution of Global Sales')
-plt.xlabel('Global Sales (millions)')
-plt.ylabel('Frequency')
-plt.show()</pre></div></div>
-      <p>The distribution will be heavily <b>right-skewed</b>: most games have low sales, and a small number have extremely high sales. This is a very common real-world pattern — income, website traffic, app downloads, sales figures.</p>
-
-      <div style="background:var(--surface-2);border-radius:var(--radius-sm);padding:.85rem 1rem;margin:1rem 0;font-size:.88rem;">
-        <b>Income analogy:</b> Most people earn a moderate amount, a smaller number earn a lot, and a tiny number earn an enormous amount. The histogram has a tall cluster on the left and a long tail stretching right.
+      <h3 class="sub-title" id="s5-hist">Histogram</h3>
+      <p>A histogram groups continuous values into bins and shows how many observations fall into each bin.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">10</span>, <span class="num">5</span>))
+sns.histplot(data=vg, x=<span class="str">'Global_Sales'</span>, bins=<span class="num">30</span>)
+plt.title(<span class="str">'Distribution of Global Sales'</span>)
+plt.xlabel(<span class="str">'Global Sales (millions)'</span>)
+plt.ylabel(<span class="str">'Frequency'</span>)
+plt.show()</pre>
       </div>
+      <p>You'll notice immediately that the distribution is <strong>heavily right-skewed</strong> — most games have low sales, and a small number have extremely high sales. This is a very common pattern in real-world data: income, website traffic, app downloads, sales.</p>
 
       <div class="callout primary">
-        <div class="callout-title">💡 Choosing bins</div>
-        More bins = finer detail, potentially noisy. Fewer bins = smoother, may hide patterns. Start with the default, then adjust. 20–50 bins is usually a good range. If the shape looks blocky, add bins; if it looks jagged, remove some.
-      </div>
-
-      <h3>sns.kdeplot() — smoothed density curve</h3>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">plt.figure(figsize=(10, 5))
-sns.kdeplot(data=vg, x='Global_Sales')
-plt.title('KDE Plot of Global Sales')
-plt.xlabel('Global Sales (millions)')
-plt.ylabel('Density')
-plt.show()
-
-# Overlay KDE on histogram (professional standard)
-plt.figure(figsize=(10, 5))
-sns.histplot(data=vg, x='Global_Sales', bins=30, kde=True)
-plt.title('Histogram with KDE Overlay')
-plt.show()</pre></div></div>
-      <div class="callout success">
-        <div class="callout-title">✓ Interview pro tip — histogram + KDE overlay</div>
-        Showing a histogram with <code>kde=True</code> signals you understand distribution analysis at a professional level. The y-axis of a KDE plot is density (not count) — the area under the curve sums to 1.
-      </div>
-      <div class="tryit-card" data-tryit>
-        <div class="tryit-head"><span class="tryit-label">🐍 Try it yourself</span><div class="tryit-btns"><button class="tryit-run">▶ Run</button><button class="tryit-reset">Reset</button></div></div>
-        <textarea class="tryit-input" spellcheck="false">import pandas as pd, numpy as np
-np.random.seed(42)
-sales = np.random.exponential(0.8, 200)
-df = pd.DataFrame({'Global_Sales': sales})
-
-print("Distribution stats:")
-print(df['Global_Sales'].describe().round(3))
-print("\nSkewness (positive = right-skewed):", round(df['Global_Sales'].skew(), 3))
-print("Values above mean:", (df['Global_Sales'] > df['Global_Sales'].mean()).sum(), "out of", len(df))</textarea>
-        <div class="tryit-status"></div><div class="tryit-output-tag"></div><pre class="tryit-output"></pre>
-      </div>
-    </section>
-
-    <!-- BOX PLOT / IQR -->
-    <section class="section" id="boxplot">
-      <div class="eyebrow"><span class="num">6</span>Univariate analysis</div>
-      <h2>Box plot and the IQR rule</h2>
-      <p class="lede">The box plot is your <b>outlier detection tool</b>. It compresses the entire distribution into five numbers and makes outliers immediately visible.</p>
-
-      <div class="boxplot-vis">
-        <svg viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
-          <style>.bvl{font:13px 'JetBrains Mono',monospace;fill:#6a6883;}.bvlb{font:13px 'JetBrains Mono',monospace;fill:#4b3fd0;font-weight:700;}.bvlr{font:13px 'JetBrains Mono',monospace;fill:#d6465a;font-weight:700;}.bvlt{font:12px 'Source Sans 3',sans-serif;fill:#34314c;}</style>
-          <!-- whisker left -->
-          <line x1="80" y1="80" x2="180" y2="80" stroke="#6a6883" stroke-width="2"/>
-          <line x1="80" y1="68" x2="80" y2="92" stroke="#6a6883" stroke-width="2"/>
-          <!-- box Q1-Q3 -->
-          <rect x="180" y="55" width="180" height="50" rx="4" fill="none" stroke="#4b3fd0" stroke-width="2"/>
-          <!-- median line -->
-          <line x1="295" y1="55" x2="295" y2="105" stroke="#4b3fd0" stroke-width="3"/>
-          <!-- whisker right -->
-          <line x1="360" y1="80" x2="455" y2="80" stroke="#6a6883" stroke-width="2"/>
-          <line x1="455" y1="68" x2="455" y2="92" stroke="#6a6883" stroke-width="2"/>
-          <!-- outliers -->
-          <circle cx="488" cy="80" r="5" fill="none" stroke="#d6465a" stroke-width="2"/>
-          <circle cx="515" cy="80" r="5" fill="none" stroke="#d6465a" stroke-width="2"/>
-          <circle cx="540" cy="80" r="5" fill="none" stroke="#d6465a" stroke-width="2"/>
-          <!-- labels -->
-          <text x="80" y="118" class="bvl" text-anchor="middle">Min</text>
-          <text x="180" y="118" class="bvlb" text-anchor="middle">Q1</text>
-          <text x="295" y="45" class="bvlb" text-anchor="middle">Median (Q2)</text>
-          <text x="360" y="118" class="bvlb" text-anchor="middle">Q3</text>
-          <text x="455" y="118" class="bvl" text-anchor="middle">Max</text>
-          <text x="512" y="118" class="bvlr" text-anchor="middle">Outliers</text>
-          <!-- IQR brace -->
-          <text x="270" y="148" class="bvlt" text-anchor="middle">← IQR = Q3 − Q1 →</text>
-          <!-- whisker label -->
-          <text x="120" y="45" class="bvl" text-anchor="middle">whisker</text>
-          <text x="408" y="45" class="bvl" text-anchor="middle">whisker</text>
-          <text x="130" y="58" class="bvl" text-anchor="middle">(1.5×IQR)</text>
-          <text x="408" y="58" class="bvl" text-anchor="middle">(1.5×IQR)</text>
-        </svg>
-      </div>
-
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">plt.figure(figsize=(10, 5))
-sns.boxplot(data=vg, x='Global_Sales')
-plt.title('Box Plot of Global Sales')
-plt.xlabel('Global Sales (millions)')
-plt.show()</pre></div></div>
-
-      <p>The IQR outlier rule is something interviewers ask you to explain:</p>
-      <div class="tbl-wrap"><table class="op-table">
-        <tr><th>Formula</th><th>Meaning</th></tr>
-        <tr><td><code>IQR = Q3 − Q1</code></td><td>Width of the middle 50% of the data</td></tr>
-        <tr><td><code>Lower Bound = Q1 − (1.5 × IQR)</code></td><td>Points below this are potential outliers</td></tr>
-        <tr><td><code>Upper Bound = Q3 + (1.5 × IQR)</code></td><td>Points above this are potential outliers</td></tr>
-      </table></div>
-
-      <div class="quiz" data-quiz>
-        <div class="quiz-tag">Quiz 1</div>
-        <div class="quiz-q">You create a histogram of customer purchase amounts and see a tall peak on the left with a long tail extending to the right. What does this tell you?</div>
-        <div class="quiz-opts">
-          <div class="quiz-opt" data-correct="false">A) The distribution is normally distributed</div>
-          <div class="quiz-opt" data-correct="false">B) The distribution is left-skewed</div>
-          <div class="quiz-opt" data-correct="true">C) The distribution is right-skewed (positively skewed)</div>
-          <div class="quiz-opt" data-correct="false">D) The distribution is uniform</div>
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <div class="callout-title">Analogy</div>
+          <p>Think of income in a country. Most people earn a moderate amount, a smaller number earn a lot, and a tiny number earn an enormous amount. The histogram would have a tall cluster on the left with a long tail stretching right.</p>
         </div>
-        <div class="quiz-explain">A tall peak on the left with a long tail to the right is the definition of right-skewed (positively skewed) data. Most values are low, with a few extreme high values pulling the tail rightward. Common real-world examples: income, sales, website traffic.</div>
-      </div>
-      <div class="tryit-card" data-tryit>
-        <div class="tryit-head"><span class="tryit-label">🐍 Try it yourself — IQR by hand</span><div class="tryit-btns"><button class="tryit-run">▶ Run</button><button class="tryit-reset">Reset</button></div></div>
-        <textarea class="tryit-input" spellcheck="false">import pandas as pd, numpy as np
-np.random.seed(42)
-sales = np.random.exponential(0.8, 200)
-s = pd.Series(sales)
-
-Q1 = s.quantile(0.25)
-Q3 = s.quantile(0.75)
-IQR = Q3 - Q1
-lower = Q1 - 1.5 * IQR
-upper = Q3 + 1.5 * IQR
-
-print(f"Q1:          {Q1:.3f}")
-print(f"Q3:          {Q3:.3f}")
-print(f"IQR:         {IQR:.3f}")
-print(f"Lower Bound: {lower:.3f}")
-print(f"Upper Bound: {upper:.3f}")
-outliers = s[(s < lower) | (s > upper)]
-print(f"\nOutliers:    {len(outliers)} out of {len(s)} ({len(outliers)/len(s)*100:.1f}%)")</textarea>
-        <div class="tryit-status"></div><div class="tryit-output-tag"></div><pre class="tryit-output"></pre>
-      </div>
-    </section>
-
-    <!-- SCATTER / LINE -->
-    <section class="section" id="scatter">
-      <div class="eyebrow"><span class="num">7</span>Bivariate analysis</div>
-      <h2>Continuous vs Continuous: scatter plot and line plot</h2>
-      <p class="lede">Bivariate analysis looks at two variables together. Question: "Do games that sell well in North America also sell well in Europe?"</p>
-
-      <h3>sns.scatterplot() — relationship between two continuous variables</h3>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">plt.figure(figsize=(8, 6))
-sns.scatterplot(data=vg, x='NA_Sales', y='EU_Sales')
-plt.title('NA Sales vs EU Sales')
-plt.xlabel('North America Sales (millions)')
-plt.ylabel('Europe Sales (millions)')
-plt.show()
-
-# Add genre dimension with hue
-plt.figure(figsize=(10, 6))
-sns.scatterplot(data=vg, x='NA_Sales', y='EU_Sales', hue='Genre')
-plt.title('NA Sales vs EU Sales by Genre')
-plt.show()</pre></div></div>
-
-      <div class="tbl-wrap"><table class="op-table">
-        <tr><th>Pattern in scatter plot</th><th>Meaning</th></tr>
-        <tr><td>Dots from bottom-left → top-right</td><td>Positive correlation: as one increases, the other tends to increase</td></tr>
-        <tr><td>Dots from top-left → bottom-right</td><td>Negative correlation: as one increases, the other tends to decrease</td></tr>
-        <tr><td>Random cloud, no pattern</td><td>No correlation: the variables move independently</td></tr>
-      </table></div>
-
-      <h3>sns.lineplot() — trends over time or ordered sequences</h3>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">year_counts = vg.groupby('Year')['Name'].count().reset_index()
-year_counts.columns = ['Year', 'Game_Count']
-year_counts = year_counts.dropna()
-
-plt.figure(figsize=(12, 5))
-sns.lineplot(data=year_counts, x='Year', y='Game_Count')
-plt.title('Number of Game Releases Over Time')
-plt.xlabel('Year')
-plt.ylabel('Number of Games Released')
-plt.show()</pre></div></div>
-      <div class="callout primary">
-        <div class="callout-title">💡 Scatter vs Line</div>
-        Use <b>scatter plots</b> when you want to see the relationship between two variables at a point in time. Use <b>line plots</b> when one of your variables represents time or a natural sequence.
       </div>
 
-      <div class="quiz" data-quiz>
-        <div class="quiz-tag">Quiz 2</div>
-        <div class="quiz-q">A scatter plot of "Hours Studied" (x) vs "Exam Score" (y) shows dots forming a pattern from bottom-left to top-right. What does this indicate?</div>
-        <div class="quiz-opts">
-          <div class="quiz-opt" data-correct="false">A) Negative correlation</div>
-          <div class="quiz-opt" data-correct="false">B) No correlation</div>
-          <div class="quiz-opt" data-correct="true">C) Positive correlation</div>
-          <div class="quiz-opt" data-correct="false">D) The variables are categorical</div>
-        </div>
-        <div class="quiz-explain">Bottom-left to top-right is the visual signature of positive correlation: as one variable increases, the other tends to increase too. This is the most common pattern interviewers ask you to identify in a scatter plot.</div>
-      </div>
+      <p>The <code>bins</code> parameter controls how many buckets the data is divided into:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">14</span>, <span class="num">4</span>))
 
-      <div class="tryit-card" data-tryit>
-        <div class="tryit-head"><span class="tryit-label">🐍 Try it yourself</span><div class="tryit-btns"><button class="tryit-run">▶ Run</button><button class="tryit-reset">Reset</button></div></div>
-        <textarea class="tryit-input" spellcheck="false">import pandas as pd, numpy as np
-np.random.seed(42)
-n = 100
-na = np.random.exponential(0.8, n)
-eu = na * 0.6 + np.random.exponential(0.3, n)   # positively correlated
-jp = np.random.exponential(0.3, n)               # weakly correlated
+plt.subplot(<span class="num">1</span>, <span class="num">3</span>, <span class="num">1</span>)
+sns.histplot(data=vg, x=<span class="str">'Global_Sales'</span>, bins=<span class="num">10</span>)
+plt.title(<span class="str">'10 Bins'</span>)
 
-df = pd.DataFrame({'NA_Sales': na, 'EU_Sales': eu, 'JP_Sales': jp})
-corr = df.corr().round(3)
-print("Correlation matrix:")
-print(corr)
-print("\nNA vs EU correlation:", corr.loc['NA_Sales','EU_Sales'], "← strong positive")
-print("NA vs JP correlation:", corr.loc['NA_Sales','JP_Sales'], "← weak")</textarea>
-        <div class="tryit-status"></div><div class="tryit-output-tag"></div><pre class="tryit-output"></pre>
-      </div>
-    </section>
+plt.subplot(<span class="num">1</span>, <span class="num">3</span>, <span class="num">2</span>)
+sns.histplot(data=vg, x=<span class="str">'Global_Sales'</span>, bins=<span class="num">30</span>)
+plt.title(<span class="str">'30 Bins'</span>)
 
-    <!-- CAT vs CONT -->
-    <section class="section" id="cat-cont">
-      <div class="eyebrow"><span class="num">8</span>Bivariate analysis</div>
-      <h2>Categorical vs Continuous: box plot and bar plot</h2>
-      <p class="lede">The most common pattern in real-world analysis: "Compare revenue across regions." "Compare salaries across departments." One categorical variable defines groups; one continuous variable is compared. This is also Tableau's most natural use case.</p>
+plt.subplot(<span class="num">1</span>, <span class="num">3</span>, <span class="num">3</span>)
+sns.histplot(data=vg, x=<span class="str">'Global_Sales'</span>, bins=<span class="num">100</span>)
+plt.title(<span class="str">'100 Bins'</span>)
 
-      <h3>Grouped box plot — full distribution per category</h3>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">top_platforms = vg['Platform'].value_counts().head(8).index
-vg_top = vg[vg['Platform'].isin(top_platforms)]
-
-plt.figure(figsize=(12, 6))
-sns.boxplot(data=vg_top, x='Platform', y='Global_Sales')
-plt.title('Global Sales Distribution by Top 8 Platforms')
-plt.xlabel('Platform')
-plt.ylabel('Global Sales (millions)')
-plt.show()</pre></div></div>
-
-      <h3>Grouped bar plot — mean per category</h3>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">plt.figure(figsize=(12, 6))
-sns.barplot(data=vg_top, x='Platform', y='Global_Sales')
-plt.title('Average Global Sales by Platform')
-plt.xlabel('Platform')
-plt.ylabel('Average Global Sales (millions)')
-plt.show()
-
-# Add a second categorical dimension with hue
-plt.figure(figsize=(14, 6))
-sns.barplot(data=vg_top, x='Platform', y='Global_Sales', hue='Genre')
-plt.title('Average Global Sales by Platform and Genre')
-plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
-plt.show()</pre></div></div>
-      <div class="callout primary">
-        <div class="callout-title">💡 Box plot vs bar plot for categorical vs continuous</div>
-        <b>Box plot</b>: shows full distribution — median, spread, outliers per group. Use when you want to compare variability, not just averages.<br>
-        <b>Bar plot</b>: shows mean (or other aggregate). Use when the summary number is what matters.<br><br>
-        In interviews: showing both and explaining why demonstrates thorough analysis.
+plt.show()</pre>
       </div>
-    </section>
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <div class="callout-title">Rule of Thumb</div>
+          <p>Start with the default number of bins, then adjust. Blocky/oversimplified → increase bins. Noisy/jagged → decrease bins. 20–50 bins is usually a good range for most datasets.</p>
+        </div>
+      </div>
 
-    <!-- HEATMAP -->
-    <section class="section" id="heatmap">
-      <div class="eyebrow"><span class="num">9</span>Multivariate</div>
-      <h2>Correlation heatmap</h2>
-      <p class="lede">The <b>single most commonly referenced visualization in Data Analyst interviews</b>. Instead of making scatter plots one pair at a time, a heatmap shows relationships between all numerical variables at once.</p>
+      <h3 class="sub-title" id="s5-kde">KDE Plot</h3>
+      <p>A KDE (Kernel Density Estimate) plot is a smoothed version of a histogram — instead of bars, it draws a continuous curve estimating the probability density of the variable.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">10</span>, <span class="num">5</span>))
+sns.kdeplot(data=vg, x=<span class="str">'Global_Sales'</span>)
+plt.title(<span class="str">'KDE Plot of Global Sales'</span>)
+plt.xlabel(<span class="str">'Global Sales (millions)'</span>)
+plt.ylabel(<span class="str">'Density'</span>)
+plt.show()</pre>
+      </div>
+      <p>The y-axis is <em>density</em>, not count — the area under the curve sums to 1. You can also overlay a KDE on a histogram to get both views at once:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">10</span>, <span class="num">5</span>))
+sns.histplot(data=vg, x=<span class="str">'Global_Sales'</span>, bins=<span class="num">30</span>, kde=<span class="kw">True</span>)
+plt.title(<span class="str">'Histogram with KDE Overlay'</span>)
+plt.xlabel(<span class="str">'Global Sales (millions)'</span>)
+plt.ylabel(<span class="str">'Frequency'</span>)
+plt.show()</pre>
+      </div>
+      <div class="callout primary">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <div class="callout-title">Pro Tip</div>
+          <p>In interviews, showing a histogram with a KDE overlay demonstrates that you understand distribution analysis at a professional level. A small touch that signals competence.</p>
+        </div>
+      </div>
 
-      <div class="code-card"><div class="code-head"><span class="code-label">python — compute then visualize</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">vg.corr(numeric_only=True)  # compute correlation matrix
+      <h3 class="sub-title" id="s5-box">Box Plot</h3>
+      <p>The box plot is your <strong>outlier detection tool</strong> — it compresses the entire distribution into five numbers and makes outliers immediately visible.</p>
 
-plt.figure(figsize=(10, 8))
-sns.heatmap(vg.corr(numeric_only=True), annot=True, cmap='coolwarm')
-plt.title('Correlation Heatmap of Video Game Sales')
-plt.show()</pre></div></div>
+      <div class="callout primary">
+        <span class="callout-icon">📦</span>
+        <div class="callout-body">
+          <div class="callout-title">How to Read a Box Plot</div>
+          <p>The <strong>box</strong> contains the middle 50% of the data (Q1 to Q3). The <strong>line inside</strong> the box is the median. The <strong>whiskers</strong> extend to the furthest data point within 1.5 × IQR beyond Q1 and Q3. Anything beyond the whiskers is a potential outlier — investigate before removing them.</p>
+        </div>
+      </div>
 
-      <div class="io-block output"><div class="io-tag">Correlation values (from real data)</div><pre>              NA_Sales  EU_Sales  JP_Sales  Other_Sales  Global_Sales
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">10</span>, <span class="num">5</span>))
+sns.boxplot(data=vg, x=<span class="str">'Global_Sales'</span>)
+plt.title(<span class="str">'Box Plot of Global Sales'</span>)
+plt.xlabel(<span class="str">'Global Sales (millions)'</span>)
+plt.show()</pre>
+      </div>
+
+      <p>You'll see a compressed box on the left (most games have low sales) and many outlier dots stretching far right (blockbuster games). This confirms what the histogram already told us.</p>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <div class="callout-title">IQR Rule — Interviewers Will Ask</div>
+          <p><strong>IQR = Q3 − Q1</strong> &nbsp;|&nbsp; <strong>Lower Bound = Q1 − (1.5 × IQR)</strong> &nbsp;|&nbsp; <strong>Upper Bound = Q3 + (1.5 × IQR)</strong></p>
+          <p>Any data point below the lower bound or above the upper bound is a potential outlier.</p>
+        </div>
+      </div>
+
+      <!-- Try-it: IQR -->
+      <div class="try-cell">
+        <div class="try-header">
+          <div class="try-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Try It · IQR Outlier Rule
+          </div>
+          <button class="run-btn" onclick="runPy(this)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Run
+          </button>
+        </div>
+        <textarea class="try-editor" spellcheck="false">import numpy as np
+
+# Small example: compute IQR rule by hand
+data = [2, 5, 7, 8, 10, 12, 14, 15, 18, 95]
+
+q1 = np.percentile(data, 25)
+q3 = np.percentile(data, 75)
+iqr = q3 - q1
+lower = q1 - 1.5 * iqr
+upper = q3 + 1.5 * iqr
+
+print(f"Data: {data}")
+print(f"Q1 = {q1}, Q3 = {q3}, IQR = {iqr}")
+print(f"Lower bound = {lower:.1f}")
+print(f"Upper bound = {upper:.1f}")
+outliers = [x for x in data if x < lower or x > upper]
+print(f"Outliers: {outliers}")</textarea>
+        <div class="loading-py"><div class="spinner"></div>Loading Python runtime…</div>
+        <div class="try-output"></div>
+      </div>
+
+      <!-- Quiz 1 -->
+      <div class="quiz-block">
+        <div class="quiz-header">
+          <span class="quiz-badge">Quiz 1</span>
+          <span style="font-size:.82rem;color:var(--text-3)">Distribution Analysis</span>
+        </div>
+        <div class="quiz-q">You create a histogram of customer purchase amounts and see a tall peak on the left side with a long tail extending to the right. What does this tell you about the distribution?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 1)"><span class="letter">a</span> The distribution is normally distributed</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 1)"><span class="letter">b</span> The distribution is left-skewed</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, true,  1)"><span class="letter">c</span> The distribution is right-skewed</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 1)"><span class="letter">d</span> The distribution is uniform</div>
+        </div>
+        <div class="quiz-feedback" id="qfb1"></div>
+      </div>
+    </div>
+
+    <!-- S6 -->
+    <div class="section-block" id="s6">
+      <h2 class="section-title"><span class="num">6</span> Using AI as Your Chart-Building Companion</h2>
+      <p>We've just covered the densest conceptual stretch so far: bin-count tradeoffs, KDE density curves, and the 1.5× IQR outlier rule. This is exactly the kind of material worth pressure-testing with AI before you move on — not because the concepts are wrong, but because <em>"I can follow the explanation"</em> and <em>"I could explain this to someone else"</em> are different levels of understanding.</p>
+
+      <div class="ai-prompt">
+        <div class="ai-prompt-title">🤖 Try This Prompt in Colab AI (Gemini)</div>
+        <blockquote>I just learned the 1.5x IQR rule for detecting outliers in a box plot. Can you walk through a small example with 7 or 8 numbers, showing me how to compute Q1, Q3, IQR, and the lower/upper bounds by hand?</blockquote>
+        <p>Working through a hand-computed example alongside Seaborn's automatic version is a good way to confirm the rule actually makes sense, rather than just recognizing the shape of a box plot.</p>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <div class="callout-title">Rule of Thumb</div>
+          <p>Whenever a chart shows you a number derived from a formula (IQR bounds, a correlation coefficient), and you can read the chart but couldn't derive the number yourself — that's a signal to ask AI for a small worked example before moving on.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- S7 -->
+    <div class="section-block" id="s7">
+      <h2 class="section-title"><span class="num">7</span> Bivariate Analysis: Continuous vs Continuous</h2>
+      <p>So far we've looked at one variable at a time. But the most interesting analytical questions involve <strong>relationships between variables</strong>. Your manager now asks: "Do games that sell well in North America also sell well in Europe?" We need to look at two variables together.</p>
+
+      <h3 class="sub-title" id="s7-scatter">Scatter Plot</h3>
+      <p>A scatter plot places one continuous variable on x, another on y, and plots each data point as a dot — the most fundamental tool for visually assessing whether two variables are related.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">8</span>, <span class="num">6</span>))
+sns.scatterplot(data=vg, x=<span class="str">'NA_Sales'</span>, y=<span class="str">'EU_Sales'</span>)
+plt.title(<span class="str">'NA Sales vs EU Sales'</span>)
+plt.xlabel(<span class="str">'North America Sales (millions)'</span>)
+plt.ylabel(<span class="str">'Europe Sales (millions)'</span>)
+plt.show()</pre>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pattern</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td>Bottom-left → top-right</td><td>Positive correlation: as one increases, the other tends to increase</td></tr>
+            <tr><td>Top-left → bottom-right</td><td>Negative correlation: as one increases, the other tends to decrease</td></tr>
+            <tr><td>Random cloud</td><td>No clear linear relationship</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Here, most points rise from bottom-left to top-right — games that sell well in North America generally sell well in Europe too. We'll measure how strongly in the heatmap section.</p>
+
+      <div class="callout bridge">
+        <span class="callout-icon">🌉</span>
+        <div class="callout-body">
+          <div class="callout-title">Cross-Tech Bridge · Tableau</div>
+          <p>In Tableau, you create a scatter plot by placing one measure on Columns and another on Rows. The Marks card shows circles by default. In Seaborn, you call <code>sns.scatterplot()</code> with x and y. Same logic, same visual output.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-title" id="s7-line">Line Plot</h3>
+      <p>Line plots are best for showing <strong>trends over time</strong> or across ordered data. Your manager asks: "How has the number of game releases changed over the years?"</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><span class="cm"># Prepare the data</span>
+year_counts <span class="kw">=</span> vg.groupby(<span class="str">'Year'</span>)[<span class="str">'Name'</span>].count().reset_index()
+year_counts.columns <span class="kw">=</span> [<span class="str">'Year'</span>, <span class="str">'Game_Count'</span>]
+year_counts <span class="kw">=</span> year_counts.dropna()
+
+plt.figure(figsize=(<span class="num">12</span>, <span class="num">5</span>))
+sns.lineplot(data=year_counts, x=<span class="str">'Year'</span>, y=<span class="str">'Game_Count'</span>)
+plt.title(<span class="str">'Number of Game Releases Over Time'</span>)
+plt.xlabel(<span class="str">'Year'</span>)
+plt.ylabel(<span class="str">'Number of Games Released'</span>)
+plt.show()</pre>
+      </div>
+
+      <p>The line plot shows the trend: game releases grew steadily, peaked around 2008–2009, then declined.</p>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <div class="callout-title">Two Cautions About This Chart</div>
+          <p>Each row in this dataset is one game on one platform — a game released on three platforms counts three times. And the data stops around 2016, so the last few years are incomplete and exaggerate the decline.</p>
+        </div>
+      </div>
+
+      <div class="callout primary">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <div class="callout-title">Pro Tip</div>
+          <p>Use <strong>scatter plots</strong> when you want to see the relationship between two variables at a point in time. Use <strong>line plots</strong> when one of your variables represents time or a natural sequence.</p>
+        </div>
+      </div>
+
+      <!-- Try-it: scatter correlation -->
+      <div class="try-cell">
+        <div class="try-header">
+          <div class="try-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Try It · Correlation Check
+          </div>
+          <button class="run-btn" onclick="runPy(this)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Run
+          </button>
+        </div>
+        <textarea class="try-editor" spellcheck="false">import numpy as np
+
+# Simulate NA_Sales and EU_Sales correlation
+np.random.seed(42)
+na = np.random.exponential(scale=0.5, size=200)
+eu = na * 0.8 + np.random.exponential(scale=0.15, size=200)
+
+corr = np.corrcoef(na, eu)[0, 1]
+print(f"Simulated NA vs EU correlation: {corr:.3f}")
+print()
+print("Interpretation:")
+if corr > 0.7:
+    print("  Strong positive correlation — games that sell in NA tend to sell in EU")
+elif corr > 0.3:
+    print("  Moderate positive correlation")
+else:
+    print("  Weak or no clear linear correlation")</textarea>
+        <div class="loading-py"><div class="spinner"></div>Loading Python runtime…</div>
+        <div class="try-output"></div>
+      </div>
+
+      <!-- Quiz 2 -->
+      <div class="quiz-block">
+        <div class="quiz-header">
+          <span class="quiz-badge">Quiz 2</span>
+          <span style="font-size:.82rem;color:var(--text-3)">Scatter Plot Interpretation</span>
+        </div>
+        <div class="quiz-q">You create a scatter plot of "Hours Studied" (x-axis) vs "Exam Score" (y-axis) and see dots forming a pattern from bottom-left to top-right. What does this indicate?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 2)"><span class="letter">a</span> Negative correlation</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 2)"><span class="letter">b</span> No correlation</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, true,  2)"><span class="letter">c</span> Positive correlation</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 2)"><span class="letter">d</span> The variables are categorical</div>
+        </div>
+        <div class="quiz-feedback" id="qfb2"></div>
+      </div>
+    </div>
+
+    <!-- S8 -->
+    <div class="section-block" id="s8">
+      <h2 class="section-title"><span class="num">8</span> Bivariate Analysis: Categorical vs Continuous</h2>
+      <p>What about comparing a continuous variable across categories? This is one of the most common patterns in real-world data analysis — "Compare revenue across regions," "Compare salaries across departments." The structure is always the same: one categorical variable defining groups, one continuous variable being compared.</p>
+      <p>Your manager's next question: "Which genre generates the highest average global sales?"</p>
+
+      <h3 class="sub-title" id="s8-bar">Grouped Bar Plot</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">12</span>, <span class="num">5</span>))
+sns.barplot(data=vg, x=<span class="str">'Genre'</span>, y=<span class="str">'Global_Sales'</span>, errorbar=<span class="kw">None</span>)
+plt.title(<span class="str">'Average Global Sales by Genre'</span>)
+plt.xlabel(<span class="str">'Genre'</span>)
+plt.ylabel(<span class="str">'Average Global Sales (millions)'</span>)
+plt.show()</pre>
+      </div>
+
+      <div class="callout primary">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <div class="callout-title">Note: errorbar=None</div>
+          <p>By default, <code>sns.barplot()</code> computes the <strong>mean</strong> of the y variable for each category on x. We set <code>errorbar=None</code> so that each bar shows only the average value without error bars, which keeps the chart clean and readable.</p>
+        </div>
+      </div>
+
+      <p><strong>Platform</strong> games have the highest average global sales per game, followed by Shooter. Action has the most games but a lower average — it's crowded without being the top earner.</p>
+
+      <p>Now let's place a bar chart (countplot) and a grouped bar plot side by side to compare what each tells us:</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">16</span>, <span class="num">5</span>))
+
+plt.subplot(<span class="num">1</span>, <span class="num">2</span>, <span class="num">1</span>)
+sns.countplot(data=vg, x=<span class="str">'Genre'</span>)
+plt.title(<span class="str">'Bar Chart: Number of Games by Genre'</span>)
+plt.xlabel(<span class="str">'Genre'</span>)
+plt.xticks(rotation=<span class="num">45</span>)
+plt.ylabel(<span class="str">'Number of Games'</span>)
+
+plt.subplot(<span class="num">1</span>, <span class="num">2</span>, <span class="num">2</span>)
+sns.barplot(data=vg, x=<span class="str">'Genre'</span>, y=<span class="str">'Global_Sales'</span>, errorbar=<span class="kw">None</span>)
+plt.title(<span class="str">'Grouped Bar Chart: Average Global Sales by Genre'</span>)
+plt.xlabel(<span class="str">'Genre'</span>)
+plt.xticks(rotation=<span class="num">45</span>)
+plt.ylabel(<span class="str">'Average Global Sales (millions)'</span>)
+
+plt.tight_layout()
+plt.show()</pre>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Bar Chart (Countplot)</th><th>Grouped Bar Chart (Barplot)</th></tr></thead>
+          <tbody>
+            <tr><td>Analysis type</td><td>Univariate</td><td>Bivariate</td></tr>
+            <tr><td>Variables</td><td>1 categorical (Genre)</td><td>1 categorical (Genre) + 1 continuous (Global_Sales)</td></tr>
+            <tr><td>Bar height</td><td>Number of games (count)</td><td>Average global sales (aggregated value)</td></tr>
+            <tr><td>Question answered</td><td>Which genre has the most games?</td><td>Which genre earns the most per game?</td></tr>
+            <tr><td>Seaborn</td><td><code>sns.countplot(x)</code></td><td><code>sns.barplot(x, y)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>A genre can have many games (tall bar on the left) but low average sales per game (short bar on the right). <strong>Counting</strong> tells you how crowded a category is; the <strong>grouped bar chart</strong> tells you how well it performs.</p>
+
+      <div class="callout bridge">
+        <span class="callout-icon">🌉</span>
+        <div class="callout-body">
+          <div class="callout-title">Cross-Tech Bridge · Tableau</div>
+          <p>This is Tableau's most natural use case. You drag a dimension (Genre) to Columns and a measure (Global Sales) to Rows. You get a bar chart instantly. In Python, we have two tools for this: the grouped bar plot you just saw, and the grouped box plot next. Each shows something different.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-title" id="s8-box">Grouped Box Plot</h3>
+      <p>Averages hide the spread. Your manager now asks: "How do global sales differ across gaming platforms?" — and wants to see more than the average.</p>
+      <p>A grouped box plot shows the <strong>full distribution</strong> of a continuous variable for each category — median, spread, and outliers for every group.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">14</span>, <span class="num">6</span>))
+sns.boxplot(data=vg, x=<span class="str">'Platform'</span>, y=<span class="str">'Global_Sales'</span>)
+plt.title(<span class="str">'Global Sales Distribution by Platform'</span>)
+plt.xlabel(<span class="str">'Platform'</span>)
+plt.ylabel(<span class="str">'Global Sales (millions)'</span>)
+plt.xticks(rotation=<span class="num">45</span>)
+plt.show()</pre>
+      </div>
+
+      <p>Filter to the top platforms for a cleaner view:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>top_platforms <span class="kw">=</span> vg[<span class="str">'Platform'</span>].value_counts().head(<span class="num">8</span>).index
+vg_top <span class="kw">=</span> vg[vg[<span class="str">'Platform'</span>].isin(top_platforms)]
+
+plt.figure(figsize=(<span class="num">12</span>, <span class="num">6</span>))
+sns.boxplot(data=vg_top, x=<span class="str">'Platform'</span>, y=<span class="str">'Global_Sales'</span>)
+plt.title(<span class="str">'Global Sales Distribution by Top 8 Platforms'</span>)
+plt.xlabel(<span class="str">'Platform'</span>)
+plt.xticks(rotation=<span class="num">45</span>)
+plt.ylabel(<span class="str">'Global Sales (millions)'</span>)
+plt.show()</pre>
+      </div>
+
+      <p>Side-by-side comparison — univariate vs grouped box plot:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">16</span>, <span class="num">5</span>))
+
+plt.subplot(<span class="num">1</span>, <span class="num">2</span>, <span class="num">1</span>)
+sns.boxplot(data=vg_top, y=<span class="str">'Global_Sales'</span>)
+plt.title(<span class="str">'Box Plot: Global Sales (Top 8 Combined)'</span>)
+plt.ylabel(<span class="str">'Global Sales (millions)'</span>)
+
+plt.subplot(<span class="num">1</span>, <span class="num">2</span>, <span class="num">2</span>)
+sns.boxplot(data=vg_top, x=<span class="str">'Platform'</span>, y=<span class="str">'Global_Sales'</span>)
+plt.title(<span class="str">'Grouped Box Plot: Global Sales by Platform'</span>)
+plt.xlabel(<span class="str">'Platform'</span>)
+plt.xticks(rotation=<span class="num">45</span>)
+plt.ylabel(<span class="str">'Global Sales (millions)'</span>)
+
+plt.tight_layout()
+plt.show()</pre>
+      </div>
+
+      <p>The left chart shows one overall distribution: sales are skewed, with many outliers. The right chart splits that same data by platform, so you can see which platforms have higher typical sales and which ones produce the outliers.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Box Plot</th><th>Grouped Box Plot</th></tr></thead>
+          <tbody>
+            <tr><td>Analysis type</td><td>Univariate</td><td>Bivariate</td></tr>
+            <tr><td>Variables</td><td>1 continuous (Global_Sales)</td><td>1 categorical (Platform) + 1 continuous (Global_Sales)</td></tr>
+            <tr><td>Number of boxes</td><td>One for all data combined</td><td>One per category</td></tr>
+            <tr><td>Question answered</td><td>What does the distribution look like?</td><td>How does the distribution differ across groups?</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <div class="callout-title">Rule of Thumb</div>
+          <p>Use a <strong>grouped box plot</strong> when you want to compare distributions (spread, median, outliers). Use a <strong>grouped bar plot</strong> when you want to compare averages or other aggregated values. In interviews, showing both for the same data demonstrates thorough analysis.</p>
+        </div>
+      </div>
+
+      <!-- Try-it: compare means vs distributions -->
+      <div class="try-cell">
+        <div class="try-header">
+          <div class="try-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Try It · Averages vs Distributions
+          </div>
+          <button class="run-btn" onclick="runPy(this)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Run
+          </button>
+        </div>
+        <textarea class="try-editor" spellcheck="false">import numpy as np
+
+# Two groups with the same mean but very different distributions
+np.random.seed(0)
+group_a = np.random.normal(loc=5, scale=0.5, size=50)   # tightly clustered
+group_b = np.concatenate([np.random.normal(1, 0.3, 25),
+                          np.random.normal(9, 0.3, 25)])  # bimodal
+
+print("Group A — mean:", round(group_a.mean(), 2),
+      " std:", round(group_a.std(), 2))
+print("Group B — mean:", round(group_b.mean(), 2),
+      " std:", round(group_b.std(), 2))
+print()
+print("Same mean (~5), but very different shapes.")
+print("A bar chart would make them look identical.")
+print("A box plot would reveal group B is bimodal.")</textarea>
+        <div class="loading-py"><div class="spinner"></div>Loading Python runtime…</div>
+        <div class="try-output"></div>
+      </div>
+    </div>
+
+    <!-- S9 -->
+    <div class="section-block" id="s9">
+      <h2 class="section-title"><span class="num">9</span> Correlation Heatmap</h2>
+      <p>We've covered individual charts for specific variable combinations. But what if you want to see the relationships between <em>all</em> the sales variables at once? Instead of making scatter plots one pair at a time, the <strong>correlation heatmap</strong> gives you the big picture in a single view.</p>
+      <p>The correlation heatmap computes the <strong>correlation coefficient</strong> between every pair of numerical variables and displays the results as a color-coded grid.</p>
+
+      <div class="callout primary">
+        <span class="callout-icon">📊</span>
+        <div class="callout-body">
+          <div class="callout-title">Business Problem</div>
+          <p>Your manager asks: "Which regional sales figures are most closely related to global sales? And which regions' sales are least closely linked to each other?" Instead of making ten separate scatter plots, you can answer both questions with one chart.</p>
+        </div>
+      </div>
+
+      <p>First, compute the correlation matrix:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>sales_cols <span class="kw">=</span> [<span class="str">'NA_Sales'</span>, <span class="str">'EU_Sales'</span>, <span class="str">'JP_Sales'</span>,
+             <span class="str">'Other_Sales'</span>, <span class="str">'Global_Sales'</span>]
+vg[sales_cols].corr()</pre>
+      </div>
+
+      <p>Now visualize it as a heatmap:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">10</span>, <span class="num">8</span>))
+sns.heatmap(vg[sales_cols].corr(),
+            annot=<span class="kw">True</span>, cmap=<span class="str">'coolwarm'</span>)
+plt.title(<span class="str">'Correlation Heatmap of Video Game Sales'</span>)
+plt.show()</pre>
+      </div>
+
+      <div class="output-block">
+        <div class="output-label">Output (correlation matrix)</div>
+              NA_Sales  EU_Sales  JP_Sales  Other_Sales  Global_Sales
 NA_Sales          1.00      0.77      0.45         0.63          0.94
 EU_Sales          0.77      1.00      0.44         0.65          0.90
 JP_Sales          0.45      0.44      1.00         0.29          0.61
 Other_Sales       0.63      0.65      0.29         1.00          0.75
-Global_Sales      0.94      0.90      0.61         0.75          1.00</pre></div>
+Global_Sales      0.94      0.90      0.61         0.75          1.00</div>
 
-      <p>How to read the color scale:</p>
-      <div class="corr-scale"><div class="cs-neg"></div><div class="cs-zero"></div><div class="cs-pos"></div></div>
-      <div style="display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);font-family:var(--font-mono);margin-bottom:.8rem;">
-        <span>−1 (perfect negative)</span><span>0 (no correlation)</span><span>+1 (perfect positive)</span>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Color</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td>🔴 Dark Red</td><td>Strong positive correlation (close to +1)</td></tr>
+            <tr><td>⬜ White</td><td>Weak or no correlation (close to 0)</td></tr>
+            <tr><td>🔵 Dark Blue</td><td>Strong negative correlation (close to -1)</td></tr>
+            <tr><td>Diagonal</td><td>Always 1.0 — every variable is perfectly correlated with itself</td></tr>
+          </tbody>
+        </table>
       </div>
 
-      <p>Key observations from this heatmap:</p>
-      <ul style="font-size:.93rem;padding-left:1.2rem;margin:.5rem 0 1rem;">
-        <li><b>NA_Sales and Global_Sales: 0.94</b> — North American sales are the strongest predictor of global sales.</li>
-        <li><b>JP_Sales has the weakest correlations</b> — the Japanese market behaves somewhat independently of other regions.</li>
-        <li><b>Diagonal is always 1.0</b> — every variable is perfectly correlated with itself.</li>
+      <p>Key observations:</p>
+      <ul>
+        <li><strong>NA_Sales and Global_Sales: 0.94</strong> — North American sales move most closely with global sales. Keep in mind that Global_Sales is the sum of all regional sales, so every region is partly correlated with it by construction. To compare markets with each other, read the region-vs-region cells, such as NA vs EU (0.77).</li>
+        <li><strong>JP_Sales has the weakest correlation</strong> with other regions — the Japanese market is the least closely linked to the rest.</li>
+        <li>The diagonal is always 1.0.</li>
       </ul>
 
-      <div class="tbl-wrap"><table class="op-table">
-        <tr><th>Parameter</th><th>Effect</th><th>When to use</th></tr>
-        <tr><td><code>annot=True</code></td><td>Prints correlation values inside cells</td><td>Always — colors alone make precise interpretation difficult</td></tr>
-        <tr><td><code>cmap='coolwarm'</code></td><td>Red=positive, Blue=negative, White=near-zero</td><td>Standard for correlation heatmaps</td></tr>
-        <tr><td><code>fmt='.2f'</code></td><td>Format annotation to 2 decimal places</td><td>When default format is too long</td></tr>
-      </table></div>
+      <p>Key parameters:</p>
+      <ul>
+        <li><code>annot=True</code> — prints the actual correlation values inside each cell. Without this, you only see colors, making precise interpretation difficult.</li>
+        <li><code>cmap='coolwarm'</code> — red for positive, blue for negative, white for near-zero.</li>
+      </ul>
 
       <div class="callout bridge">
-        <div class="callout-title">🌉 Tableau bridge — Python's clear advantage</div>
-        Tableau does not natively produce correlation heatmaps. You'd need to compute correlations externally and then build a custom chart. This is one of the clearest examples of Python's advantage for analytical visualization — exactly the framing interviewers are looking for.
-      </div>
-
-      <div class="quiz" data-quiz>
-        <div class="quiz-tag">Quiz 3</div>
-        <div class="quiz-q">In a correlation heatmap, a cell shows the value 0.05 between two variables. What does this indicate?</div>
-        <div class="quiz-opts">
-          <div class="quiz-opt" data-correct="false">A) Strong positive correlation</div>
-          <div class="quiz-opt" data-correct="false">B) Strong negative correlation</div>
-          <div class="quiz-opt" data-correct="true">C) Weak or no linear correlation</div>
-          <div class="quiz-opt" data-correct="false">D) The variables are identical</div>
+        <span class="callout-icon">🌉</span>
+        <div class="callout-body">
+          <div class="callout-title">Cross-Tech Bridge · Tableau</div>
+          <p>Tableau does not natively produce correlation heatmaps. You'd need to compute correlations externally and then build a custom chart. This is one of the clearest examples of Python's advantage over Tableau for analytical visualization.</p>
         </div>
-        <div class="quiz-explain">A correlation coefficient close to 0 indicates little to no linear relationship — the two variables move independently. A value of 0.05 is near-zero. Important: correlation only measures linear relationships; two variables can have a strong non-linear relationship and still show a near-zero correlation.</div>
       </div>
 
-      <div class="tryit-card" data-tryit>
-        <div class="tryit-head"><span class="tryit-label">🐍 Try it yourself</span><div class="tryit-btns"><button class="tryit-run">▶ Run</button><button class="tryit-reset">Reset</button></div></div>
-        <textarea class="tryit-input" spellcheck="false">import pandas as pd, numpy as np
-np.random.seed(42)
-n = 200
-na = np.random.exponential(0.8, n)
-eu = na * 0.7 + np.random.exponential(0.2, n)
-jp = np.random.exponential(0.3, n)
-other = na * 0.3 + np.random.exponential(0.1, n)
-global_s = na + eu + jp + other
-
-df = pd.DataFrame({'NA_Sales':na,'EU_Sales':eu,'JP_Sales':jp,
-                   'Other_Sales':other,'Global_Sales':global_s})
-corr = df.corr().round(2)
-print("Correlation matrix:")
-print(corr)
-print("\nStrongest predictor of Global_Sales:",
-      corr['Global_Sales'].drop('Global_Sales').idxmax(),
-      "=", corr['Global_Sales'].drop('Global_Sales').max())</textarea>
-        <div class="tryit-status"></div><div class="tryit-output-tag"></div><pre class="tryit-output"></pre>
+      <div class="callout primary">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <div class="callout-title">Pro Tip</div>
+          <p>In an EDA notebook, a correlation heatmap is a quick way to show how numerical variables relate. It gives the reader an instant overview of your dataset's structure. Always include <code>annot=True</code> so the values are readable.</p>
+        </div>
       </div>
-    </section>
 
-    <!-- PAIRPLOT -->
-    <section class="section" id="pairplot">
-      <div class="eyebrow"><span class="num">10</span>Multivariate</div>
-      <h2>Pairplot — scatter plots behind the numbers</h2>
-      <p class="lede">The heatmap gives you correlation numbers. Pairplot gives you the scatter plots behind those numbers — so you can visually inspect the shape of each relationship, not just its coefficient.</p>
+      <div class="ai-prompt">
+        <div class="ai-prompt-title">🤖 Try With AI — Stress-Test Your Language</div>
+        <blockquote>I found that NA_Sales and Global_Sales have a correlation of 0.94 in my dataset. Is it accurate to say NA_Sales "drives" or "predicts" Global_Sales, or am I overstating what correlation actually shows?</blockquote>
+        <p>This is a good habit for any correlation finding: use AI to check whether your wording implies causation you haven't actually established.</p>
+      </div>
 
-      <div class="code-card"><div class="code-head"><span class="code-label">python — one line, full grid</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">sns.pairplot(vg[['NA_Sales', 'EU_Sales', 'JP_Sales', 'Global_Sales']])
+      <!-- Quiz 3 -->
+      <div class="quiz-block">
+        <div class="quiz-header">
+          <span class="quiz-badge">Quiz 3</span>
+          <span style="font-size:.82rem;color:var(--text-3)">Heatmap Interpretation</span>
+        </div>
+        <div class="quiz-q">In a correlation heatmap, you see a cell with the value 0.05 between two variables. What does this indicate?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 3)"><span class="letter">a</span> Strong positive correlation</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 3)"><span class="letter">b</span> Strong negative correlation</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, true,  3)"><span class="letter">c</span> Weak or no linear correlation</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 3)"><span class="letter">d</span> The variables are identical</div>
+        </div>
+        <div class="quiz-feedback" id="qfb3"></div>
+      </div>
+
+      <!-- Try-it: correlation -->
+      <div class="try-cell">
+        <div class="try-header">
+          <div class="try-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Try It · Correlation Matrix
+          </div>
+          <button class="run-btn" onclick="runPy(this)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Run
+          </button>
+        </div>
+        <textarea class="try-editor" spellcheck="false">import numpy as np
+
+# Simulate vgsales correlation matrix
+np.random.seed(1)
+n = 1000
+na = np.random.exponential(0.5, n)
+eu = na * 0.85 + np.random.exponential(0.1, n)
+jp = np.random.exponential(0.2, n)
+oth = na * 0.55 + np.random.exponential(0.1, n)
+gl = na + eu + jp + oth
+
+import sys, io
+
+# Build and print correlation matrix
+cols = ['NA', 'EU', 'JP', 'Other', 'Global']
+data = np.stack([na, eu, jp, oth, gl], axis=1)
+corr = np.corrcoef(data.T)
+
+# Print formatted
+header = "         " + "  ".join(f"{c:>8}" for c in cols)
+print(header)
+for i, row_name in enumerate(cols):
+    vals = "  ".join(f"{corr[i,j]:8.2f}" for j in range(len(cols)))
+    print(f"{row_name:<9}{vals}")
+
+print("\nHighest off-diagonal:", end=" ")
+mask = np.ones_like(corr, dtype=bool)
+np.fill_diagonal(mask, False)
+idx = np.unravel_index(np.argmax(corr[mask]), corr.shape)
+print(f"{cols[idx[0]]} vs {cols[idx[1]]}: {corr[idx[0],idx[1]]:.2f}")</textarea>
+        <div class="loading-py"><div class="spinner"></div>Loading Python runtime…</div>
+        <div class="try-output"></div>
+      </div>
+    </div>
+
+    <!-- S10 -->
+    <div class="section-block" id="s10">
+      <h2 class="section-title"><span class="num">10</span> Styling, Labelling, and Figure Sizing</h2>
+      <p>This section brings together everything needed to produce presentation-ready charts.</p>
+
+      <h3 class="sub-title">Setting a Visual Style</h3>
+      <p>Seaborn comes with built-in styles that change the overall look of your charts:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>sns.set_style(<span class="str">'whitegrid'</span>)  <span class="cm"># applies to every chart after this line</span></pre>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Style</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>'darkgrid'</code></td><td>Grey background with grid lines</td></tr>
+            <tr><td><code>'whitegrid'</code></td><td>White background with grid lines</td></tr>
+            <tr><td><code>'dark'</code></td><td>Grey background, no grid</td></tr>
+            <tr><td><code>'white'</code></td><td>White background, no grid</td></tr>
+            <tr><td><code>'ticks'</code></td><td>White background with tick marks on axes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>styles <span class="kw">=</span> [<span class="str">'darkgrid'</span>, <span class="str">'whitegrid'</span>, <span class="str">'dark'</span>, <span class="str">'white'</span>, <span class="str">'ticks'</span>]
+
+fig <span class="kw">=</span> plt.figure(figsize=(<span class="num">20</span>, <span class="num">4</span>))
+<span class="kw">for</span> i, style <span class="kw">in</span> <span class="fn">enumerate</span>(styles):
+    <span class="kw">with</span> sns.axes_style(style):
+        ax <span class="kw">=</span> fig.add_subplot(<span class="num">1</span>, <span class="num">5</span>, i <span class="kw">+</span> <span class="num">1</span>)
+        sns.histplot(data=vg, x=<span class="str">'Global_Sales'</span>, bins=<span class="num">20</span>, ax=ax)
+        ax.set_title(style)
+plt.tight_layout()
 plt.show()
 
-# With hue — color by category
-top_genres = vg['Genre'].value_counts().head(4).index
-vg_subset = vg[vg['Genre'].isin(top_genres)]
-sns.pairplot(vg_subset[['NA_Sales','EU_Sales','JP_Sales','Global_Sales','Genre']],
-             hue='Genre')
-plt.show()</pre></div></div>
-
-      <p>What one line gives you:</p>
-      <ul style="font-size:.93rem;padding-left:1.2rem;margin:.5rem 0 1rem;">
-        <li>Scatter plots for every variable pair (off-diagonal cells)</li>
-        <li>Distribution plots for each variable (diagonal cells)</li>
-        <li>An instant visual overview of all relationships in your data</li>
-      </ul>
-
-      <div class="tbl-wrap"><table class="op-table">
-        <tr><th>Cell type</th><th>What it shows</th></tr>
-        <tr><td>Off-diagonal</td><td>Scatter plot of row variable (y) against column variable (x). Look for linear trends, clusters, outliers.</td></tr>
-        <tr><td>Diagonal</td><td>Distribution of each variable (histogram or KDE). With <code>hue</code>: overlapping curves per category.</td></tr>
-        <tr><td>Symmetry</td><td>Grid is symmetric across the diagonal — row 2 col 3 shows same relationship as row 3 col 2, with axes flipped.</td></tr>
-      </table></div>
-
-      <div class="callout bridge">
-        <div class="callout-title">🌉 Tableau bridge — Python's efficiency advantage</div>
-        To reproduce a pairplot in Tableau: create a separate scatter plot sheet for every variable pair, a histogram sheet for each variable, and arrange them all in a dashboard. What Seaborn does in one line would take 10–15 minutes of manual work in Tableau.
-      </div>
-    </section>
-
-    <!-- STYLING -->
-    <section class="section" id="styling">
-      <div class="eyebrow"><span class="num">11</span>Polish</div>
-      <h2>Styling, labelling, and figure sizing</h2>
-
-      <h3>Visual styles with sns.set_style()</h3>
-      <div class="styles-row">
-        <span class="style-pill">darkgrid</span>
-        <span class="style-pill recommended">whitegrid ✓ recommended</span>
-        <span class="style-pill">dark</span>
-        <span class="style-pill">white</span>
-        <span class="style-pill">ticks</span>
-      </div>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">sns.set_style('whitegrid')   # set once at the top of your notebook</pre></div></div>
-      <div class="callout primary">
-        <div class="callout-title">💡 Always use whitegrid in professional notebooks</div>
-        Clean, readable, works well in both light and dark presentation settings. Set it once at the top of your notebook and all subsequent charts inherit it.
+<span class="cm"># Set the style for the rest of the notebook</span>
+sns.set_style(<span class="str">'whitegrid'</span>)</pre>
       </div>
 
-      <h3>Side-by-side charts with plt.subplots()</h3>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">fig, axes = plt.subplots(1, 2, figsize=(16, 5))
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <div class="callout-title">Rule of Thumb</div>
+          <p>For professional notebooks and interviews, <code>'whitegrid'</code> is the safest choice — clean, readable, and works well in both light and dark presentation settings.</p>
+        </div>
+      </div>
 
-sns.histplot(data=vg, x='NA_Sales', bins=30, ax=axes[0])
-axes[0].set_title('Distribution of NA Sales')
-axes[0].set_xlabel('NA Sales (millions)')
-axes[0].set_ylabel('Frequency')
+      <h3 class="sub-title">Side-by-Side Charts with plt.subplots()</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>fig, axes <span class="kw">=</span> plt.subplots(<span class="num">1</span>, <span class="num">2</span>, figsize=(<span class="num">16</span>, <span class="num">5</span>))
 
-sns.histplot(data=vg, x='EU_Sales', bins=30, ax=axes[1])
-axes[1].set_title('Distribution of EU Sales')
-axes[1].set_xlabel('EU Sales (millions)')
-axes[1].set_ylabel('Frequency')
+sns.histplot(data=vg, x=<span class="str">'NA_Sales'</span>, bins=<span class="num">30</span>, ax=axes[<span class="num">0</span>])
+axes[<span class="num">0</span>].set_title(<span class="str">'Distribution of NA Sales'</span>)
+axes[<span class="num">0</span>].set_xlabel(<span class="str">'NA Sales (millions)'</span>)
+axes[<span class="num">0</span>].set_ylabel(<span class="str">'Frequency'</span>)
+
+sns.histplot(data=vg, x=<span class="str">'EU_Sales'</span>, bins=<span class="num">30</span>, ax=axes[<span class="num">1</span>])
+axes[<span class="num">1</span>].set_title(<span class="str">'Distribution of EU Sales'</span>)
+axes[<span class="num">1</span>].set_xlabel(<span class="str">'EU Sales (millions)'</span>)
+axes[<span class="num">1</span>].set_ylabel(<span class="str">'Frequency'</span>)
 
 plt.tight_layout()
-plt.show()</pre></div></div>
+plt.show()</pre>
+      </div>
 
-      <p>How <code>plt.subplots()</code> works:</p>
-      <ul style="font-size:.93rem;padding-left:1.2rem;margin:.5rem 0 1rem;">
-        <li><code>plt.subplots(1, 2, figsize=(16, 5))</code> → 1 row, 2 columns of chart areas. <code>fig</code> = canvas, <code>axes</code> = array of chart areas.</li>
-        <li><code>ax=axes[0]</code> → draw this chart in the first area. <code>ax=axes[1]</code> → second area.</li>
-        <li><code>axes[0].set_title(...)</code> targets one specific chart. Use <code>.set_title()</code> (method on axes) not <code>plt.title()</code> (global) when multiple charts exist.</li>
+      <p>Key points:</p>
+      <ul>
+        <li><code>plt.subplots(1, 2, figsize=(16, 5))</code> creates 1 row and 2 columns of chart areas. <code>fig</code> is the overall figure; <code>axes</code> is an array of individual chart areas.</li>
+        <li><code>ax=axes[0]</code> tells Seaborn to draw in the first chart area.</li>
+        <li><code>axes[0].set_title(...)</code> sets the title for that specific chart area — use <code>.set_title()</code> (method on axes object) instead of <code>plt.title()</code> (global function) when you have multiple charts.</li>
         <li><code>plt.tight_layout()</code> adjusts spacing so labels don't overlap.</li>
       </ul>
 
       <div class="callout bridge">
-        <div class="callout-title">🌉 Tableau bridge</div>
-        Similar to placing two sheets side by side in a Tableau dashboard: you want to compare two views of the data simultaneously.
-      </div>
-
-      <h3>plt.tight_layout() — always include it</h3>
-      <div class="code-card"><div class="code-head"><span class="code-label">python</span><button class="copy-btn">Copy</button></div><div class="code-body"><pre class="code-src">plt.figure(figsize=(12, 5))
-sns.barplot(data=vg_top, x='Platform', y='Global_Sales')
-plt.title('Average Global Sales by Platform')
-plt.xlabel('Gaming Platform')
-plt.ylabel('Average Global Sales (in millions of USD)')
-plt.tight_layout()   # ← prevents label cutoffs at figure edges
-plt.show()</pre></div></div>
-
-      <div class="checklist">
-        <div class="cl-title">✓ Professional chart checklist (interview standard)</div>
-        <ol>
-          <li>Has a descriptive, specific title</li>
-          <li>Has labelled axes <b>with units</b> (e.g. "millions", "USD")</li>
-          <li>Appropriately sized with <code>plt.figure(figsize=...)</code></li>
-          <li>Includes <code>plt.tight_layout()</code> before <code>plt.show()</code></li>
-          <li>Consistent style set with <code>sns.set_style('whitegrid')</code></li>
-        </ol>
-        Meeting all five signals the attention to detail interviewers notice.
-      </div>
-
-      <div class="tryit-card" data-tryit>
-        <div class="tryit-head"><span class="tryit-label">🐍 Try it yourself</span><div class="tryit-btns"><button class="tryit-run">▶ Run</button><button class="tryit-reset">Reset</button></div></div>
-        <textarea class="tryit-input" spellcheck="false">import pandas as pd, numpy as np
-np.random.seed(42)
-genres = ['Action','Sports','Shooter','RPG','Platform']
-n = 150
-df = pd.DataFrame({'Genre': np.random.choice(genres, n),
-                   'NA_Sales': np.random.exponential(0.8, n),
-                   'EU_Sales': np.random.exponential(0.5, n)})
-
-# Demonstrate plt.subplots (text output only)
-print("Genre counts:")
-print(df['Genre'].value_counts())
-print("\nMean NA_Sales:", df['NA_Sales'].mean().round(3))
-print("Mean EU_Sales:", df['EU_Sales'].mean().round(3))
-print("\nCorrelation NA vs EU:", df[['NA_Sales','EU_Sales']].corr().iloc[0,1].round(3))</textarea>
-        <div class="tryit-status"></div><div class="tryit-output-tag"></div><pre class="tryit-output"></pre>
-      </div>
-    </section>
-
-    <!-- DECISION FRAMEWORK -->
-    <section class="section" id="decision">
-      <div class="eyebrow"><span class="num">12</span>Reference</div>
-      <h2>When to use which chart — the decision framework</h2>
-      <p class="lede">One of the most common interview questions: "Which chart would you use to visualize X?" Here's the decision framework.</p>
-
-      <!-- Interactive chart selector -->
-      <div class="chart-selector">
-        <div class="cs-tabs">
-          <button class="cs-tab active" data-tab="cat">One Categorical</button>
-          <button class="cs-tab" data-tab="cont">One Continuous</button>
-          <button class="cs-tab" data-tab="cc">Cont × Cont</button>
-          <button class="cs-tab" data-tab="catcont">Cat × Cont</button>
-          <button class="cs-tab" data-tab="all">All Numerics</button>
-        </div>
-        <div class="cs-panel active" data-panel="cat">
-          <div class="cs-use">Variable type: One categorical variable</div>
-          <div>Example question: "Which genre has the most games?"</div>
-          <div style="margin-top:.7rem;"><span class="cs-fn">sns.countplot()</span><span class="cs-fn">sns.barplot()</span></div>
-          <p style="margin-top:.7rem;font-size:.85rem;">Use <code>countplot</code> for raw counts. Use <code>barplot</code> with a y variable for aggregated metrics (mean sales per genre). Always sort by frequency with <code>order=vg['col'].value_counts().index</code>.</p>
-        </div>
-        <div class="cs-panel" data-panel="cont">
-          <div class="cs-use">Variable type: One continuous variable</div>
-          <div>Example question: "What does the distribution of sales look like? Are there outliers?"</div>
-          <div style="margin-top:.7rem;"><span class="cs-fn">sns.histplot()</span><span class="cs-fn">sns.kdeplot()</span><span class="cs-fn">sns.boxplot()</span></div>
-          <p style="margin-top:.7rem;font-size:.85rem;">Use histogram first to see shape. Add <code>kde=True</code> for a density overlay. Follow with a box plot to identify outliers by the 1.5×IQR rule.</p>
-        </div>
-        <div class="cs-panel" data-panel="cc">
-          <div class="cs-use">Variable type: Continuous × Continuous</div>
-          <div>Example question: "Do NA sales predict EU sales? How did game releases change over time?"</div>
-          <div style="margin-top:.7rem;"><span class="cs-fn">sns.scatterplot()</span><span class="cs-fn">sns.lineplot()</span></div>
-          <p style="margin-top:.7rem;font-size:.85rem;">Use <code>scatterplot</code> for relationships at a point in time. Use <code>lineplot</code> when one variable is time or an ordered sequence. Add <code>hue=</code> to either to split by a categorical variable.</p>
-        </div>
-        <div class="cs-panel" data-panel="catcont">
-          <div class="cs-use">Variable type: Categorical × Continuous</div>
-          <div>Example question: "How does salary differ across departments? Compare revenue across regions."</div>
-          <div style="margin-top:.7rem;"><span class="cs-fn">sns.boxplot()</span><span class="cs-fn">sns.barplot()</span></div>
-          <p style="margin-top:.7rem;font-size:.85rem;">Use <b>box plot</b> to compare full distributions (median, spread, outliers). Use <b>bar plot</b> to compare means. In interviews: show both and explain why — it signals thorough analysis.</p>
-        </div>
-        <div class="cs-panel" data-panel="all">
-          <div class="cs-use">Variable type: All numerical variables at once</div>
-          <div>Example question: "Which variables are most related? Give me an overview of this dataset."</div>
-          <div style="margin-top:.7rem;"><span class="cs-fn">sns.heatmap(df.corr())</span><span class="cs-fn">sns.pairplot()</span></div>
-          <p style="margin-top:.7rem;font-size:.85rem;">Use <b>heatmap</b> for a quick numeric overview. Use <b>pairplot</b> to visually inspect each relationship. Start every EDA with these two — they tell you where to dig deeper.</p>
+        <span class="callout-icon">🌉</span>
+        <div class="callout-body">
+          <div class="callout-title">Cross-Tech Bridge · Tableau</div>
+          <p>This is similar to placing two sheets side by side in a Tableau dashboard — you want to compare two views of the data simultaneously.</p>
         </div>
       </div>
 
-      <div class="quiz" data-quiz>
-        <div class="quiz-tag">Quiz 4</div>
-        <div class="quiz-q">Dataset: employees with Department (categorical), Years_of_Experience (continuous), Salary (continuous). Manager asks: "How does salary differ across departments?" Which chart?</div>
-        <div class="quiz-opts">
-          <div class="quiz-opt" data-correct="false">A) Scatter plot</div>
-          <div class="quiz-opt" data-correct="false">B) Histogram</div>
-          <div class="quiz-opt" data-correct="true">C) Grouped box plot</div>
-          <div class="quiz-opt" data-correct="false">D) Correlation heatmap</div>
-        </div>
-        <div class="quiz-explain">Department is categorical, Salary is continuous → grouped box plot. It shows the salary distribution (median, spread, outliers) for each department, enabling rich comparison. A grouped bar plot showing mean salary would also be acceptable — in an interview, mention both and explain the difference.</div>
+      <div class="ai-prompt">
+        <div class="ai-prompt-title">🤖 Try With AI — Fix a Common Error</div>
+        <blockquote>I changed my plt.subplots(1, 2) to plt.subplots(2, 2) and now axes[0] gives me an error when I try to plot on it. What changed about the shape of axes, and how do I index into it correctly now?</blockquote>
+        <p>This is a good one to actually try yourself: break the 1×2 example above into a 2×2 grid, hit the error on purpose, then use AI to understand the fix rather than just copying one.</p>
       </div>
-    </section>
 
-    <!-- SUMMARY -->
-    <section class="section" id="summary">
-      <div class="eyebrow"><span class="num">13</span>Recap</div>
-      <h2>Session summary</h2>
-      <div class="tbl-wrap"><table class="summary">
-        <tr><th>Chart / Concept</th><th>Seaborn function</th><th>Use when</th></tr>
-        <tr><td>Countplot</td><td><code>sns.countplot(data, x/y, order=)</code></td><td>Frequency of each category (no y variable)</td></tr>
-        <tr><td>Bar plot</td><td><code>sns.barplot(data, x, y)</code></td><td>Aggregated metric (mean by default) per category</td></tr>
-        <tr><td>Histogram</td><td><code>sns.histplot(data, x, bins, kde=)</code></td><td>Distribution of a continuous variable</td></tr>
-        <tr><td>KDE plot</td><td><code>sns.kdeplot(data, x)</code></td><td>Smoothed density curve; y-axis = density not count</td></tr>
-        <tr><td>Box plot</td><td><code>sns.boxplot(data, x/y)</code></td><td>Outlier detection; 1.5×IQR rule; five-number summary</td></tr>
-        <tr><td>Scatter plot</td><td><code>sns.scatterplot(data, x, y, hue=)</code></td><td>Relationship between two continuous variables</td></tr>
-        <tr><td>Line plot</td><td><code>sns.lineplot(data, x, y)</code></td><td>Trend over time or ordered sequence</td></tr>
-        <tr><td>Grouped box plot</td><td><code>sns.boxplot(data, x=cat, y=cont)</code></td><td>Compare distribution across categories</td></tr>
-        <tr><td>Grouped bar plot</td><td><code>sns.barplot(data, x=cat, y=cont, hue=)</code></td><td>Compare mean across categories; add hue for 3D</td></tr>
-        <tr><td>Correlation heatmap</td><td><code>sns.heatmap(df.corr(), annot=True, cmap=)</code></td><td>All pairwise correlations at once; EDA standard</td></tr>
-        <tr><td>Pairplot</td><td><code>sns.pairplot(df, hue=)</code></td><td>Scatter plot grid + distributions in one call</td></tr>
-        <tr><td>Figure sizing</td><td><code>plt.figure(figsize=(w, h))</code></td><td>Every chart — set before calling Seaborn</td></tr>
-        <tr><td>Labels</td><td><code>plt.title / xlabel / ylabel</code></td><td>Every chart — required in interviews</td></tr>
-        <tr><td>Style</td><td><code>sns.set_style('whitegrid')</code></td><td>Set once at top of notebook</td></tr>
-        <tr><td>Side-by-side</td><td><code>plt.subplots(1, 2, figsize=); ax=axes[i]</code></td><td>Compare two charts simultaneously</td></tr>
-        <tr><td>Tight layout</td><td><code>plt.tight_layout()</code></td><td>Before plt.show() — prevents label clipping</td></tr>
-      </table></div>
-    </section>
+      <h3 class="sub-title">Preventing Label Clipping</h3>
+      <p>When axis labels or titles are long, they can get cut off. <code>plt.tight_layout()</code> automatically adjusts spacing to prevent this:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>plt.figure(figsize=(<span class="num">12</span>, <span class="num">5</span>))
+sns.barplot(data=vg_top, x=<span class="str">'Platform'</span>, y=<span class="str">'Global_Sales'</span>,
+            errorbar=<span class="kw">None</span>)
+plt.title(<span class="str">'Average Global Sales by Platform'</span>)
+plt.xlabel(<span class="str">'Gaming Platform'</span>)
+plt.ylabel(<span class="str">'Average Global Sales (in millions of USD)'</span>)
+plt.tight_layout()
+plt.show()</pre>
+      </div>
+
+      <div class="callout success">
+        <span class="callout-icon">✅</span>
+        <div class="callout-body">
+          <div class="callout-title">Professional Chart Checklist</div>
+          <p>For interviews and professional notebooks, every chart should: (1) Have a descriptive title. (2) Have labelled axes with units. (3) Be appropriately sized. (4) Use <code>tight_layout()</code>. (5) Have a consistent style set with <code>set_style()</code>. Meeting all five signals attention to detail.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- S11 -->
+    <div class="section-block" id="s11">
+      <h2 class="section-title"><span class="num">11</span> Wrap-Up: When to Use Which Chart</h2>
+
+      <div class="callout primary">
+        <span class="callout-icon">📋</span>
+        <div class="callout-body">
+          <div class="callout-title">Back to the Manager's Questions — Answers</div>
+          <p>Action is the most crowded genre, but Platform and Shooter games earn more per game. Sales are driven by a few blockbusters, so averages can mislead. North America moves most closely with global sales, and Japan is the least linked to the other markets. These charts describe the catalog; an investment decision would also need costs, recency, and market size.</p>
+        </div>
+      </div>
+
+      <p>One of the most common interview questions for Data Analyst roles: "Which chart would you use to visualize X?" Here's your decision framework:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Data Type Combination</th><th>Recommended Chart</th><th>When to Use</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>One Categorical Variable</td><td>Countplot, Bar Chart</td><td>Show frequency or count of categories</td></tr>
+            <tr><td>One Continuous Variable</td><td>Histogram, KDE Plot, Box Plot</td><td>Show distribution, shape, outliers</td></tr>
+            <tr><td>Continuous vs Continuous</td><td>Scatter Plot, Line Plot</td><td>Show relationship or trend over time</td></tr>
+            <tr><td>Categorical vs Continuous</td><td>Grouped Box Plot, Grouped Bar Plot</td><td>Compare a metric across groups</td></tr>
+            <tr><td>All Numerical Variables</td><td>Correlation Heatmap</td><td>Overview of all relationships at once</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout bridge">
+        <span class="callout-icon">🌉</span>
+        <div class="callout-body">
+          <div class="callout-title">Cross-Tech Bridge · Tableau</div>
+          <p>In Tableau, the "Show Me" panel automatically suggests chart types based on the fields you select. The table above is the manual equivalent of that intelligence — you're now making the same decision consciously and in code.</p>
+        </div>
+      </div>
+
+      <p><strong>Example:</strong> Your manager says, "Show me how customer spending varies across membership tiers." Membership tier is categorical, spending is continuous. You reach for a <strong>grouped box plot</strong> (to show the full distribution per tier) or a <strong>grouped bar plot</strong> (to compare average spending). In an interview, you'd ideally show both and explain why.</p>
+
+      <!-- Quiz 4 -->
+      <div class="quiz-block">
+        <div class="quiz-header">
+          <span class="quiz-badge">Quiz 4</span>
+          <span style="font-size:.82rem;color:var(--text-3)">Chart Selection</span>
+        </div>
+        <div class="quiz-q">You have a dataset of employees with columns: Department (categorical), Years_of_Experience (continuous), and Salary (continuous). Your manager asks: "How does salary differ across departments?" Which chart would you use?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 4)"><span class="letter">a</span> Scatter plot</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 4)"><span class="letter">b</span> Histogram</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, true,  4)"><span class="letter">c</span> Grouped box plot</div>
+          <div class="quiz-opt" onclick="answerQuiz(this, false, 4)"><span class="letter">d</span> Correlation heatmap</div>
+        </div>
+        <div class="quiz-feedback" id="qfb4"></div>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <div class="callout-title">Before You Go — Make This a Habit</div>
+          <p>When a chart's shape or a statistic behind it doesn't fully click, or when you get a Matplotlib/Seaborn error you don't recognize, describe it to AI before you start guessing. "I ran this and got this — walk me through it" is enough to start. And for anything analytical you plan to say out loud in an interview ("X predicts Y", "this variable drives that outcome"), get in the habit of asking AI to check whether your phrasing is actually supported by what the chart shows.</p>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
-<footer>Data Visualization for Data Analytics — interactive post-read</footer>
 
 <script>
-function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-function hpy(src){
-  var p=/(#.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(import|from|as|if|else|for|in|not|True|False|None|return|def|lambda|print|zip)\b|\b(pd|plt|sns|np|figure|subplots|show|title|xlabel|ylabel|tight_layout|xticks|legend|set_title|set_xlabel|set_ylabel|set_style|countplot|barplot|histplot|kdeplot|boxplot|scatterplot|lineplot|heatmap|pairplot|corr|groupby|dropna|reset_index|value_counts|isin|head|quantile|round|idxmax|mean|skew|describe)\b|\b(\d+\.?\d*)\b|(\*\*|\/\/|==|!=|>=|<=|[+\-*\/%=<>])/gm;
-  var out="",last=0,m;
-  while((m=p.exec(src))){
-    out+=esc(src.slice(last,m.index));
-    if(m[1]) out+='<span class="tk-c">'+esc(m[1])+'</span>';
-    else if(m[2]) out+='<span class="tk-s">'+esc(m[2])+'</span>';
-    else if(m[3]) out+='<span class="tk-k">'+esc(m[3])+'</span>';
-    else if(m[4]) out+='<span class="tk-f">'+esc(m[4])+'</span>';
-    else if(m[5]) out+='<span class="tk-n">'+esc(m[5])+'</span>';
-    else if(m[6]) out+='<span class="tk-o">'+esc(m[6])+'</span>';
-    last=p.lastIndex;
+// Progress bar
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+});
+
+// Theme toggle
+const themeBtn = document.getElementById('theme-toggle');
+let dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+function applyTheme(d) {
+  document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
+  themeBtn.textContent = d ? '☀️ Light' : '🌙 Dark';
+}
+applyTheme(dark);
+themeBtn.addEventListener('click', () => { dark = !dark; applyTheme(dark); });
+
+// Active TOC
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('#toc a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(a => a.classList.remove('active'));
+      const a = document.querySelector(`#toc a[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => obs.observe(s));
+
+// Copy code
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// Quiz
+function answerQuiz(opt, isCorrect, qNum) {
+  const opts = opt.closest('.quiz-options').querySelectorAll('.quiz-opt');
+  if ([...opts].some(o => o.classList.contains('correct') || o.classList.contains('wrong'))) return;
+  opts.forEach(o => o.classList.add('answered'));
+  if (isCorrect) {
+    opt.classList.add('correct');
+  } else {
+    opt.classList.add('wrong');
+    opts.forEach(o => { if (o.onclick?.toString().includes('true')) o.classList.add('correct'); });
   }
-  return out+esc(src.slice(last));
+  const fb = document.getElementById('qfb' + qNum);
+  const rationales = {
+    1: "A tall peak on the left with a long tail to the right is the definition of right-skewed (positively skewed) data. Most values are low, with a few extreme high values pulling the tail rightward.",
+    2: "A bottom-left to top-right pattern indicates that as one variable increases, the other tends to increase as well. This is the visual signature of a positive correlation.",
+    3: "A correlation coefficient close to 0 indicates there is little to no linear relationship between the two variables. They may still have a non-linear relationship.",
+    4: "Department is categorical, Salary is continuous. A grouped box plot shows the salary distribution (median, spread, outliers) for each department, enabling direct comparison. A grouped bar plot showing average salary would also be acceptable, but the box plot provides richer information."
+  };
+  fb.textContent = (isCorrect ? '✅ Correct! ' : '❌ Not quite. ') + rationales[qNum];
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
 }
-document.querySelectorAll(".code-src").forEach(function(el){
-  var r=el.textContent;el.innerHTML=hpy(r);el.setAttribute("data-raw",r);
-});
-document.querySelectorAll(".copy-btn").forEach(function(btn){
-  btn.addEventListener("click",function(){
-    var s=btn.closest(".code-card").querySelector(".code-src");
-    navigator.clipboard.writeText(s?s.getAttribute("data-raw"):btn.closest(".code-card").querySelector("pre").textContent)
-      .then(function(){var o=btn.textContent;btn.textContent="Copied!";setTimeout(function(){btn.textContent=o;},1200);});
-  });
-});
-document.getElementById("themeToggle").addEventListener("click",function(){
-  var r=document.documentElement,a=r.getAttribute("data-theme");
-  r.setAttribute("data-theme",(a?a==="dark":window.matchMedia("(prefers-color-scheme:dark)").matches)?"light":"dark");
-});
-var prog=document.getElementById("progress"),secs=document.querySelectorAll(".section"),links=document.querySelectorAll(".toc a");
-window.addEventListener("scroll",function(){
-  var h=document.documentElement;prog.style.width=h.scrollTop/(h.scrollHeight-h.clientHeight)*100+"%";
-  var cur="";secs.forEach(function(s){if(s.getBoundingClientRect().top<=140)cur=s.id;});
-  links.forEach(function(a){a.classList.toggle("active",a.getAttribute("href")==="#"+cur);});
-},{passive:true});
-document.querySelectorAll("[data-quiz]").forEach(function(quiz){
-  var opts=quiz.querySelectorAll(".quiz-opt"),exp=quiz.querySelector(".quiz-explain"),done=false;
-  opts.forEach(function(opt){
-    opt.addEventListener("click",function(){
-      if(done)return;done=true;
-      var ok=opt.getAttribute("data-correct")==="true";
-      opt.classList.add(ok?"correct":"incorrect");
-      if(!ok)opts.forEach(function(o){if(o.getAttribute("data-correct")==="true")o.classList.add("correct");});
-      exp.classList.add("shown");
-    });
-  });
-});
-// Chart selector tabs
-document.querySelectorAll(".cs-tab").forEach(function(tab){
-  tab.addEventListener("click",function(){
-    var sel=tab.getAttribute("data-tab");
-    document.querySelectorAll(".cs-tab").forEach(function(t){t.classList.remove("active");});
-    document.querySelectorAll(".cs-panel").forEach(function(p){p.classList.remove("active");});
-    tab.classList.add("active");
-    document.querySelector('.cs-panel[data-panel="'+sel+'"]').classList.add("active");
-  });
-});
-// Pyodide
-var pyP=null;
-function loadPy(){
-  return new Promise(function(res,rej){
-    if(window.loadPyodide){res();return;}
-    var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
-    s.onload=res;s.onerror=rej;document.head.appendChild(s);
-  });
+
+// Pyodide / Try-it
+let pyodideReady = false;
+let pyodideLoading = false;
+let pyodideInstance = null;
+let pyQueue = [];
+
+async function loadPyodide_() {
+  pyodideLoading = true;
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js';
+  document.head.appendChild(script);
+  await new Promise(r => script.onload = r);
+  pyodideInstance = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/' });
+  pyodideReady = true;
+  pyQueue.forEach(fn => fn());
+  pyQueue = [];
 }
-function ensurePy(){
-  if(!pyP)pyP=loadPy().then(function(){return window.loadPyodide({indexURL:"https://cdn.jsdelivr.net/pyodide/v0.26.4/full/"});});
-  return pyP;
+
+async function runPy(btn) {
+  const cell = btn.closest('.try-cell');
+  const code = cell.querySelector('.try-editor').value;
+  const out = cell.querySelector('.try-output');
+  const loading = cell.querySelector('.loading-py');
+  const runBtns = cell.querySelectorAll('.run-btn');
+  runBtns.forEach(b => b.disabled = true);
+  out.classList.remove('show', 'error');
+  loading.classList.add('show');
+
+  const execute = async () => {
+    loading.classList.remove('show');
+    try {
+      const ns = pyodideInstance.globals.get('dict')();
+      // Redirect stdout
+      await pyodideInstance.runPythonAsync(`
+import sys, io
+_buf = io.StringIO()
+sys.stdout = _buf
+`);
+      await pyodideInstance.runPythonAsync(code, { globals: ns });
+      const captured = await pyodideInstance.runPythonAsync('_buf.getvalue()');
+      await pyodideInstance.runPythonAsync('sys.stdout = sys.__stdout__');
+      out.textContent = captured || '(no output)';
+      out.classList.remove('error');
+    } catch (e) {
+      out.textContent = String(e);
+      out.classList.add('error');
+    }
+    out.classList.add('show');
+    runBtns.forEach(b => b.disabled = false);
+    ns?.destroy?.();
+  };
+
+  if (pyodideReady) {
+    await execute();
+  } else {
+    pyQueue.push(execute);
+    if (!pyodideLoading) loadPyodide_();
+    else {
+      loading.querySelector('.spinner').style.display = 'block';
+    }
+  }
 }
-async function run(cell){
-  var ta=cell.querySelector(".tryit-input"),btn=cell.querySelector(".tryit-run");
-  var st=cell.querySelector(".tryit-status"),ot=cell.querySelector(".tryit-output-tag"),oc=cell.querySelector(".tryit-output");
-  btn.disabled=true;st.style.display="block";
-  st.textContent=window.__pyL?"Running…":"Loading Python runtime (first run only)…";
-  try{
-    var py=await ensurePy();window.__pyL=true;
-    if(!window.__pdL){st.textContent="Loading pandas…";await py.loadPackage("pandas");window.__pdL=true;}
-    st.textContent="Running…";
-    var buf="";
-    py.setStdout({batched:function(s){buf+=s+"\n";}});
-    py.setStderr({batched:function(s){buf+=s+"\n";}});
-    var ns=py.globals.get("dict")();
-    try{py.runPython(ta.value,{globals:ns});}catch(e){buf+=String(e);}finally{ns.destroy();}
-    oc.textContent=buf||"(no output)";oc.classList.add("shown");ot.classList.add("shown");st.style.display="none";
-  }catch(e){st.textContent="Could not load runtime: "+e.message;}
-  finally{btn.disabled=false;}
-}
-document.querySelectorAll("[data-tryit]").forEach(function(cell){
-  var ta=cell.querySelector(".tryit-input");ta.setAttribute("data-orig",ta.value);
-  cell.querySelector(".tryit-run").addEventListener("click",function(){run(cell);});
-  cell.querySelector(".tryit-reset").addEventListener("click",function(){
-    ta.value=ta.getAttribute("data-orig");
-    var oc=cell.querySelector(".tryit-output"),ot=cell.querySelector(".tryit-output-tag");
-    oc.classList.remove("shown");ot.classList.remove("shown");oc.textContent="";
-  });
-});
 </script>
 </body>
 </html>
